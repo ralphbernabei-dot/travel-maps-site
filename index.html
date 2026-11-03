@@ -466,7 +466,8 @@ function App(){
   const trips=data?data.trips:[];
   const T=tab==='trips', S=tab==='stats', R=tab==='random', G=tab==='settings';
   // Random-tab settings, remembered between visits
-  const [auto,setAuto]=useState(()=>{ try{ const v=+localStorage.getItem('randAuto'); return [5,10,20].includes(v)?v:0; }catch{ return 0; } });
+  const [auto,setAuto]=useState(()=>{ try{ const raw=localStorage.getItem('randAuto'); if(raw===null) return 20;   // default: 20 seconds
+    const v=+raw; return [0,5,10,20].includes(v)?v:20; }catch{ return 20; } });
   const [onlyGps,setOnlyGps]=useState(()=>{ try{ return localStorage.getItem('randOnlyGps')!=='0'; }catch{ return true; } });
   useEffect(()=>{ try{ localStorage.setItem('randAuto',String(auto)); }catch{} },[auto]);
   useEffect(()=>{ try{ localStorage.setItem('randOnlyGps',onlyGps?'1':'0'); }catch{} },[onlyGps]);

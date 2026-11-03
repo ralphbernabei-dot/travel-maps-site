@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Travel Maps</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Segoe UI,Arial,sans-serif;color:#222;background:#fff}
+#root{display:flex;flex-direction:column;height:100vh}
+.topbar{display:flex;align-items:flex-end;gap:24px;padding:8px 16px 0;background:#fff;border-bottom:1px solid #ccc;flex:none}
+.topbar h1{margin:0 0 8px;font-size:20px}
+.main{display:flex;flex:1;min-height:0}
+.main.stats aside{width:100%;border-left:0}
+#map{flex:1;height:100%;min-width:0}
+#mapwrap{flex:1;position:relative;min-width:0;height:100%}
+#mapwrap #map{position:absolute;inset:0;height:auto}
+.keybox{position:absolute;inset:0;z-index:10;background:#f4f6fa;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center;font-size:14px;color:#333}
+.keybox input{width:min(420px,90%);padding:8px;border:1px solid #bbb;border-radius:6px}
+.keybox button{padding:8px 18px;border:0;border-radius:6px;background:#1c6dd0;color:#fff;cursor:pointer}
+.keybox .e{color:#c0392b}
+aside{width:var(--pw,440px);flex:none;height:100%;overflow:auto;border-left:1px solid #ddd;background:#fafafa}
+header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid #ddd;padding:10px 14px}
+h1{font-size:18px;margin:0 0 6px}
+.crumbs{font-size:13px;color:#555}
+.crumbs a{color:#1c6dd0;cursor:pointer}
+input[type=search]{width:100%;padding:7px 9px;margin-top:8px;border:1px solid #ccc;border-radius:6px}
+.row{display:flex;gap:10px;padding:10px 14px;border-bottom:1px solid #eee;cursor:pointer;align-items:center}
+.row:hover{background:#eef4ff}
+.row img{width:72px;height:54px;object-fit:cover;border-radius:6px;background:#ddd;flex:none}
+.row b{display:block;font-size:14px}
+.row small{color:#666}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:8px}
+.grid img{width:100%;aspect-ratio:1;object-fit:cover;cursor:pointer;background:#ddd;border-radius:3px;outline:3px solid transparent;outline-offset:-3px;box-sizing:border-box}
+.grid img.hl{outline:4px solid #e03131;outline-offset:-4px;box-shadow:0 0 8px #e03131}
+.note{padding:14px;color:#666;font-size:13px}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:2000;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#eee;padding:16px}
+.lb img{max-width:94vw;max-height:66vh;object-fit:contain}
+.lb .lbtitle{font-size:18px;font-weight:700;margin-bottom:8px;text-align:center}
+.lb .lbtitle span{opacity:.6;margin:0 4px}
+.anote{margin-top:6px;color:#333;white-space:pre-wrap}
+.lb .pnote{margin:2px 0 4px;font-size:14px;white-space:pre-wrap}
+.lb .pnote.a{opacity:.75;font-size:13px}
+.lb .desc{font-size:16px;font-weight:600;margin-bottom:4px}
+.lb .meta{max-width:900px;margin-top:10px;font-size:13px;line-height:1.5;text-align:center}
+.lb button{position:absolute;top:50%;background:#0008;color:#fff;border:0;font-size:34px;padding:8px 14px;cursor:pointer}
+.lb .x{top:10px;right:10px}
+.tabs{display:flex;gap:4px;margin-bottom:-1px}
+.tabs button{padding:8px 22px;border:1px solid #ccc;border-bottom:1px solid #ccc;background:#eef1f6;color:#444;border-radius:8px 8px 0 0;cursor:pointer;font-size:14px}
+.tabs button:hover{background:#e3eaf6}
+.tabs button.on{background:#fff;color:#1c6dd0;font-weight:600;border-bottom-color:#fff;border-top:3px solid #1c6dd0;padding-top:6px}
+.chead{padding:8px 14px;background:#e3eaf6;font-weight:600;font-size:14px;border-bottom:1px solid #d3dcec}
+.chead.acc{cursor:pointer;user-select:none}
+.chead.acc:hover{background:#d6e1f3}
+.chead .arrow{display:inline-block;width:1em}
+.chead small{display:block;font-weight:400;color:#555}
+.note select,.note button{padding:3px 6px;font-size:13px}
+.bar{height:6px;background:#e8590c;border-radius:3px;margin-top:5px}
+.bar.u{background:#999}
+.sub{padding:4px 14px 8px 34px;font-size:13px}
+.sub a{display:block;color:#1c6dd0;cursor:pointer;padding:2px 0}
+.split{flex:none;width:7px;cursor:col-resize;background:#dde3ee;touch-action:none;position:relative;z-index:6}
+.split:hover,.split.drag{background:#1c6dd0}
+.split::after{content:'';position:absolute;top:50%;left:2px;width:3px;height:40px;margin-top:-20px;border-radius:2px;background:#fff8}
+.rand{flex:1;display:flex;flex-direction:row;padding:12px;min-width:0;min-height:0;background:#f4f6fa}
+.rand .lcol{width:var(--lw,36%);flex:none;min-width:0;min-height:0;display:flex;flex-direction:column;gap:8px}
+.rand .top{flex:none}
+.rand .mp{flex:1;min-height:0;min-width:0;position:relative;border-radius:8px;overflow:hidden;border:1px solid #ccc;background:#e8ecf2}
+.rand .mp .m{position:absolute;inset:0}
+.rand .mp .nol{position:absolute;left:8px;top:8px;z-index:3;background:#fff;padding:4px 10px;border-radius:6px;font-size:13px;box-shadow:0 1px 4px #0004}
+.rand .rsplit{flex:none;width:9px;cursor:col-resize;touch-action:none;position:relative}
+.rand .rsplit::before{content:'';position:absolute;top:0;bottom:0;left:3px;width:3px;border-radius:2px;background:#cfd6e4}
+.rand .rsplit:hover::before,.rand .rsplit.drag::before{background:#1c6dd0}
+.rand .pic{flex:1;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;background:#111;border-radius:8px;overflow:hidden;cursor:pointer}
+.rand .pic img{max-width:100%;max-height:100%;object-fit:contain}
+.rand .info b{font-size:17px}
+.rand .info div{margin-top:2px}
+.settings{flex:1;padding:20px 24px;overflow:auto;background:#f4f6fa}
+.settings h2{margin:0 0 14px;font-size:18px}
+.settings .opt{background:#fff;border:1px solid #dde;border-radius:8px;padding:12px 14px;margin-bottom:10px;max-width:640px}
+.settings .opt small{display:block;color:#666;margin-top:3px}
+@media(max-width:800px){.rand{flex-direction:column;gap:8px}.rand .lcol{width:auto;flex:1.4}.rand .pic{flex:1}.rand .rsplit{display:none}}
+@media(max-width:800px){.main{flex-direction:column}#mapwrap{flex:1;min-height:0;height:auto}aside{width:100%;height:var(--ph,55vh);border-left:0}.main.stats aside{height:100%}.split{width:auto;height:9px;cursor:row-resize}.split::after{left:50%;top:3px;width:40px;height:3px;margin:0 0 0 -20px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+<script type="text/babel">
+const {useState,useEffect,useRef} = React;
+const NEWP=/[\s·•|,\-–]*\+?\d+\s+new\s+(?:photos?|items?|videos?)\s+added\s+to\s+(?:the\s+|a\s+)?shared\s+album\.?/gi;
+const fixData = d => { (d.trips||[]).forEach(t=>(t.albums||[]).forEach(a=>{ if(a.title) a.title=a.title.replace(NEWP,' ').replace(/\s+/g,' ').replace(/[\s·•|,\-–]+$/,'').trim(); })); return d; };
+const clean = t => (t||'').replace(/^\[(.*)\]\(.*\)$/,'$1');
+const sz = (u,w) => u.replace(/=w\d+-h\d+$/,'') + '=w' + w;
+const loc = o => o && o.averageLocation ? [o.averageLocation.latitude,o.averageLocation.longitude] : null;
+const inView = (t,b) => { const p=loc(t); if(!p||!b) return false;
+  return p[0]>=b.s && p[0]<=b.n && [-360,0,360].some(k=>p[1]+k>=b.w && p[1]+k<=b.e); };
+const nPhotos = t => t.albums.reduce((n,a)=>n+(a.photos?a.photos.length:0),0);
+
+// Country fields are comma-separated strings ("Kenya, Tanzania") on photo / album / trip.
+// Falls back to the photos' reverse-geocoded location if an older JSON has no country field.
+const splitC = v => v ? v.split(/\s*,\s*/).filter(Boolean) : [];
+const photoCountry = p => p.country !== undefined ? p.country : (p.location && p.location.country) || null;
+const uniq = a => [...new Set(a)];
+const albumCountries = a => a.country !== undefined ? splitC(a.country) : uniq((a.photos||[]).map(photoCountry).filter(Boolean));
+const tripCountries = t => t.country !== undefined ? splitC(t.country) : uniq(t.albums.flatMap(albumCountries));
+
+// Group trips by country. A trip appears under every country listed in its country field;
+// trips with no country go to "Unknown".
+function byCountry(trips){
+  const g={}, get=c=>g[c]||(g[c]={country:c,trips:[],albums:0,photos:0});
+  trips.forEach((t,i)=>{
+    const cs=tripCountries(t);
+    if(!cs.length){const u=get('Unknown'); u.trips.push({t,i}); u.albums+=t.albums.length; u.photos+=nPhotos(t); return;}
+    cs.forEach(c=>{
+      const e=get(c); e.trips.push({t,i});
+      e.albums+=t.albums.filter(a=>albumCountries(a).includes(c)).length;
+      e.photos+=t.albums.reduce((n,a)=>n+(a.photos||[]).filter(p=>photoCountry(p)===c).length,0);
+    });
+  });
+  return Object.values(g).sort((a,b)=>(a.country==='Unknown')-(b.country==='Unknown')||b.trips.length-a.trips.length||a.country.localeCompare(b.country));
+}
+
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+// continent per country, learned from the photos' own continent field
+const continentMap = trips => { const m={};
+  trips.forEach(t=>t.albums.forEach(a=>(a.photos||[]).forEach(p=>{ if(p.country&&p.continent) m[p.country]=p.continent; }))); return m; };
+// trip dates: from photo timestamps, else guessed from the title ("... July 2026")
+function tripDate(t){
+  const ds=t.albums.flatMap(a=>(a.photos||[]).map(p=>p.takenAt)).filter(Boolean).sort();
+  if(ds.length){const f=ds[0].slice(0,10),l=ds[ds.length-1].slice(0,10); return {key:f,text:f===l?f:f+' → '+l};}
+  const title=clean(t.title), y=title.match(/\b(19|20)\d{2}\b/);
+  if(!y) return {key:null,text:'no date'};
+  const mi=MON.findIndex(m=>new RegExp('\\b'+m,'i').test(title));
+  return {key:y[0]+'-'+String(mi<0?1:mi+1).padStart(2,'0')+'-01', text:(mi<0?'':MON[mi]+' ')+y[0]};
+}
+
+function Stats({trips,onPick}){
+  const [open,setOpen]=useState({}),[openC,setOpenC]=useState({}),[mode,setMode]=useState('continent'),[desc,setDesc]=useState(false);
+  const groups=byCountry(trips), cm=continentMap(trips), max=Math.max(1,...groups.map(g=>g.trips.length));
+  const unk=c=>c==='Unknown'?1:0, dir=x=>desc?-x:x;
+  const byName=(a,b)=>unk(a)-unk(b)||dir(a.localeCompare(b));
+  const change=m=>{setMode(m);setDesc(m==='date');};   // dates default to newest first
+
+  const countryRow=g=><div key={g.country}>
+    <div className="row" onClick={()=>setOpen({...open,[g.country]:!open[g.country]})}>
+      <div style={{flex:1}}>
+        <b>{open[g.country]?'▾':'▸'} {g.country}</b>
+        <small>{g.trips.length} {g.trips.length===1?'trip':'trips'} · {g.albums} albums · {g.photos} photos</small>
+        <div className={'bar'+(g.country==='Unknown'?' u':'')} style={{width:(100*g.trips.length/max)+'%'}}/>
+      </div>
+    </div>
+    {open[g.country]&&<div className="sub">{g.trips.map(({t,i})=><a key={i} onClick={()=>onPick(i)}>{clean(t.title)}</a>)}</div>}
+  </div>;
+
+  const tripRow=({t,i})=>{ const cs=tripCountries(t).join(', ')||'Unknown';
+    return <div className="row" key={i} onClick={()=>onPick(i)}><div>
+      <b>{clean(t.title)}</b>
+      <small>{tripDate(t).text} · {cs} · {t.albums.length} albums · {nPhotos(t)} photos</small>
+    </div></div>; };
+
+  let body;
+  if(mode==='country') body=[...groups].sort((a,b)=>byName(a.country,b.country)).map(countryRow);
+  else if(mode==='continent'){
+    const conts={}; groups.forEach(g=>{const c=cm[g.country]||'Unknown'; (conts[c]=conts[c]||[]).push(g);});
+    body=Object.keys(conts).sort(byName).map(c=>{
+      const gs=conts[c].sort((a,b)=>byName(a.country,b.country));
+      const ts=new Set(gs.flatMap(g=>g.trips.map(x=>x.i)));
+      const isOpen=!!openC[c];
+      return <div key={c}><div className="chead acc" role="button" aria-expanded={isOpen} onClick={()=>setOpenC({...openC,[c]:!isOpen})}><span className="arrow">{isOpen?'▾':'▸'}</span> {c}<small>{ts.size} trips · {gs.length} {gs.length===1?'country':'countries'} · {gs.reduce((n,g)=>n+g.albums,0)} albums · {gs.reduce((n,g)=>n+g.photos,0)} photos</small></div>{isOpen&&gs.map(countryRow)}</div>;
+    });
+  } else {
+    const list=trips.map((t,i)=>({t,i,d:tripDate(t)}));
+    if(mode==='trip') list.sort((a,b)=>dir(clean(a.t.title).localeCompare(clean(b.t.title))));
+    else list.sort((a,b)=>(a.d.key===null)-(b.d.key===null)||dir((a.d.key||'').localeCompare(b.d.key||'')));
+    let yr=null; body=[];
+    list.forEach(x=>{
+      if(mode==='date'){const y=x.d.key?x.d.key.slice(0,4):'No date'; if(y!==yr){yr=y; body.push(<div className="chead" key={'y'+y}>{y}</div>);}}
+      body.push(tripRow(x));
+    });
+  }
+  const known=groups.filter(g=>g.country!=='Unknown');
+  return <>
+    <div className="note"><b>{trips.length}</b> trips · <b>{known.length}</b> countries · <b>{trips.reduce((n,t)=>n+t.albums.length,0)}</b> albums · <b>{trips.reduce((n,t)=>n+nPhotos(t),0)}</b> photos<br/>
+      A trip that visits several countries is counted in each one.<br/>
+      Sort by <select value={mode} onChange={e=>change(e.target.value)}>
+        <option value="continent">Continent / country</option><option value="country">Country</option>
+        <option value="trip">Trip</option><option value="date">Date</option></select>
+      {' '}<button onClick={()=>setDesc(!desc)}>{desc?'↓ Z–A / newest':'↑ A–Z / oldest'}</button>
+    </div>
+    {body}
+  </>;
+}
+
+// ---- Google Maps JavaScript API ----
+// The API needs a key (https://console.cloud.google.com/google/maps-apis -> enable "Maps JavaScript API").
+// Provide it once: it is read from ?key=... in the page address, or typed into the box below
+// (then remembered in this browser).
+const GOOGLE_MAPS_KEY='AIzaSyAJ7Cl38prkz4-cQcU4HlZ-Ha0IqpG7rLk';   // built-in key; ?key=... in the address or a saved key overrides it
+const getKey=()=>{ try{ return new URLSearchParams(location.search).get('key')||localStorage.getItem('gmapsKey')||GOOGLE_MAPS_KEY; }catch{ return GOOGLE_MAPS_KEY; } };
+let gmapsPromise=null;
+function loadGoogleMaps(key){
+  if(window.google&&window.google.maps) return Promise.resolve();
+  if(gmapsPromise) return gmapsPromise;
+  gmapsPromise=new Promise((res,rej)=>{
+    window.__gmReady=res;
+    window.gm_authFailure=()=>{gmapsPromise=null;rej(new Error('Google rejected the API key (check the key, that "Maps JavaScript API" is enabled, and billing).'));};
+    const sc=document.createElement('script');
+    sc.src='https://maps.googleapis.com/maps/api/js?key='+encodeURIComponent(key)+'&callback=__gmReady&v=weekly';
+    sc.onerror=()=>{gmapsPromise=null;rej(new Error('Could not load Google Maps.'));};
+    document.head.appendChild(sc);
+  });
+  return gmapsPromise;
+}
+
+function MapView({trips,ti,ai,onTrip,onAlbum,onPhoto,onBounds,hover,onHover,visible}){
+  const el=useRef(), map=useRef(), markers=useRef([]), fitKey=useRef(), cb=useRef({});
+  cb.current={onBounds,onHover};
+  const photoMk=useRef({});   // photo index -> its marker (for hover highlighting)
+  const [key,setKey]=useState(getKey),[draft,setDraft]=useState(''),[err,setErr]=useState(''),[ready,setReady]=useState(false);
+
+  useEffect(()=>{
+    if(!key||map.current) return;
+    loadGoogleMaps(key).then(()=>{
+      const WORLD={north:85,south:-85,west:-180,east:180};   // show the world once: no wrapping, no panning past the edges
+      const m=map.current=new google.maps.Map(el.current,{
+        center:{lat:20,lng:0},zoom:2,minZoom:2,restriction:{latLngBounds:WORLD,strictBounds:true},
+        streetViewControl:false,fullscreenControl:false,mapTypeControl:false,clickableIcons:false});
+      // can't zoom out past one full world, even in a wide panel
+      const fitMin=()=>m.setOptions({minZoom:Math.max(2,Math.ceil(Math.log2(el.current.clientWidth/256)))});
+      fitMin(); window.addEventListener('resize',fitMin);
+      // 'idle' fires after every pan, zoom and resize
+      m.addListener('idle',()=>{const b=m.getBounds(); if(!b) return; const j=b.toJSON();
+        cb.current.onBounds({s:j.south,w:j.west,n:j.north,e:j.east});});
+      setReady(true);
+    }).catch(e=>{setErr(e.message);setKey('');try{localStorage.removeItem('gmapsKey')}catch{}});
+  },[key]);
+
+  useEffect(()=>{
+    if(!ready) return;
+    const m=map.current; markers.current.forEach(x=>x.setMap(null)); markers.current=[]; photoMk.current={};
+    const pts=[];
+    const dot=(p,r,c,tip,fn)=>{
+      const mk=new google.maps.Marker({map:m,position:{lat:p[0],lng:p[1]},title:tip,
+        icon:{path:google.maps.SymbolPath.CIRCLE,scale:r,fillColor:c,fillOpacity:.9,strokeColor:'#fff',strokeWeight:1.5}});
+      mk.addListener('click',fn); markers.current.push(mk); pts.push(p);};
+    const t=trips[ti], a=t&&t.albums[ai];
+    if(!t) trips.forEach((x,i)=>{const p=loc(x); p&&dot(p,8,'#e8590c',clean(x.title),()=>onTrip(i));});
+    else if(!a){
+      t.albums.forEach((x,i)=>{const p=loc(x); p&&dot(p,7,'#1c6dd0',x.title,()=>onAlbum(i));});
+      if(!pts.length){const p=loc(t); p&&dot(p,8,'#e8590c',clean(t.title),()=>{});}
+    } else (a.photos||[]).forEach((x,i)=>{
+      if(x.latitude!=null&&x.longitude!=null){
+        dot([x.latitude,x.longitude],5,'#2f9e44',x.description||'photo',()=>onPhoto(i));
+        const mk=markers.current[markers.current.length-1]; photoMk.current[i]=mk;
+        mk.addListener('mouseover',()=>cb.current.onHover({i,src:'map'}));   // dot hovered -> box around the photo
+        mk.addListener('mouseout',()=>cb.current.onHover(null));
+      }
+    });
+    const fk=`${ti}|${ai}|${trips.length>0}`;   // only re-fit when the selection changes, not on every data reload
+    if(fitKey.current===fk) return;
+    fitKey.current=fk;
+    if(pts.length===1){m.setCenter({lat:pts[0][0],lng:pts[0][1]});m.setZoom(7);}
+    else if(pts.length){
+      const b=new google.maps.LatLngBounds(); pts.forEach(p=>b.extend({lat:p[0],lng:p[1]}));
+      m.fitBounds(b,40);
+      google.maps.event.addListenerOnce(m,'idle',()=>{if(m.getZoom()>9)m.setZoom(9);});
+    } else if(!t){m.setCenter({lat:20,lng:0});m.setZoom(2);}
+  },[trips,ti,ai,ready]);
+
+  useEffect(()=>{
+    if(!ready||!window.ResizeObserver) return;
+    const box=el.current.parentElement;
+    const ro=new ResizeObserver(()=>{ const m=map.current; if(!box.clientWidth) return;
+      google.maps.event.trigger(m,'resize');
+      m.setOptions({minZoom:Math.max(2,Math.ceil(Math.log2(box.clientWidth/256)))}); });
+    ro.observe(box); return ()=>ro.disconnect();
+  },[ready]);
+
+  // map is hidden (not destroyed) on the Statistics tab; when it comes back, let Google re-measure it
+  useEffect(()=>{ if(!ready||!visible) return; const m=map.current; const c=m.getCenter(), z=m.getZoom();
+    google.maps.event.trigger(m,'resize'); m.setCenter(c); m.setZoom(z); },[visible,ready]);
+
+  // photo hovered in the list (or its dot hovered) -> change that dot's icon
+  const lit=useRef(null);
+  useEffect(()=>{
+    const set=(mk,on)=>{ if(!mk) return;
+      mk.setIcon({path:google.maps.SymbolPath.CIRCLE,scale:on?10:5,fillColor:on?'#e03131':'#2f9e44',fillOpacity:on?1:.9,strokeColor:'#fff',strokeWeight:on?3:1.5});
+      mk.setZIndex(on?9999:null); };
+    if(!ready) return;
+    set(lit.current,false); lit.current=null;
+    const mk=hover&&photoMk.current[hover.i];
+    if(mk){set(mk,true); lit.current=mk;}
+  },[hover,ready,trips,ti,ai]);
+
+  const save=()=>{const k=draft.trim(); if(!k) return; try{localStorage.setItem('gmapsKey',k)}catch{} setErr(''); setKey(k);};
+  return <div id="mapwrap" style={visible?undefined:{display:'none'}}>
+    <div id="map" ref={el}/>
+    {!key&&<div className="keybox">
+      <b>Google Maps API key needed</b>
+      <div>Create a key at console.cloud.google.com (enable “Maps JavaScript API”), then paste it here.<br/>It is saved in this browser only. You can also open the page with <code>?key=YOUR_KEY</code>.</div>
+      <input value={draft} placeholder="AIza…" onChange={e=>setDraft(e.target.value)} onKeyDown={e=>e.key==='Enter'&&save()}/>
+      <button onClick={save}>Load map</button>
+      {err&&<div className="e">{err}</div>}
+    </div>}
+  </div>;
+}
+
+function Lightbox({photos,i,setI,trip,album}){
+  const p=photos[i];
+  useEffect(()=>{
+    const k=e=>{
+      if(e.key==='Escape') setI(null);
+      if(e.key==='ArrowRight') setI((i+1)%photos.length);
+      if(e.key==='ArrowLeft') setI((i-1+photos.length)%photos.length);
+    };
+    window.addEventListener('keydown',k); return ()=>window.removeEventListener('keydown',k);
+  },[i]);
+  const L1=p.location&&[p.location.city,p.location.region,p.location.country].filter(Boolean).join(', ');
+  return <div className="lb" onClick={()=>setI(null)}>
+    <button className="x" onClick={()=>setI(null)}>×</button>
+    <button style={{left:8}} onClick={e=>{e.stopPropagation();setI((i-1+photos.length)%photos.length)}}>‹</button>
+    <button style={{right:8}} onClick={e=>{e.stopPropagation();setI((i+1)%photos.length)}}>›</button>
+    <div className="lbtitle" onClick={e=>e.stopPropagation()}>{clean(trip)}{album&&<> <span>›</span> {album}</>}</div>
+    <img src={sz(p.url,1600)} referrerPolicy="no-referrer" onClick={e=>e.stopPropagation()}/>
+    <div className="meta" onClick={e=>e.stopPropagation()}>
+      <div className="desc">{p.description}</div>
+      {p.notes&&p.notes.photo&&<div className="pnote">{p.notes.photo}</div>}
+      {p.notes&&p.notes.album&&<div className="pnote a">Album: {p.notes.album}</div>}
+      <div>{[p.takenAt&&p.takenAt.replace('T',' '),L1].filter(Boolean).join(' · ')}</div>
+      {p.latitude!=null&&<div>{p.latitude}, {p.longitude}{p.altitude!=null&&` · ${p.altitude} m`} · <a style={{color:'#8cf'}} target="_blank" href={`https://www.google.com/maps?q=${p.latitude},${p.longitude}`}>open map</a></div>}
+      <div>{i+1} / {photos.length}</div>
+    </div>
+  </div>;
+}
+
+// ---- Random tab: a random photo plus a map of where it sits within its trip ----
+function TripMap({trip,photo}){
+  const el=useRef(), map=useRef(), dots=useRef([]), cur=useRef(null);
+  const [ready,setReady]=useState(false),[err,setErr]=useState('');
+  const has=p=>p&&p.latitude!=null&&p.longitude!=null;
+  useEffect(()=>{
+    loadGoogleMaps(getKey()).then(()=>{
+      map.current=new google.maps.Map(el.current,{center:{lat:20,lng:0},zoom:2,minZoom:2,streetViewControl:false,fullscreenControl:false,mapTypeControl:false,clickableIcons:false});
+      setReady(true);
+    }).catch(e=>setErr(e.message));
+  },[]);
+  // every located photo of the trip as a small dot; fit the map to the trip
+  useEffect(()=>{
+    if(!ready) return; const m=map.current;
+    dots.current.forEach(d=>d.setMap(null)); dots.current=[];
+    const b=new google.maps.LatLngBounds(); let n=0;
+    trip.albums.forEach(a=>(a.photos||[]).forEach(x=>{ if(!has(x)) return; n++;
+      const pos={lat:x.latitude,lng:x.longitude}; b.extend(pos);
+      dots.current.push(new google.maps.Marker({map:m,position:pos,clickable:false,
+        icon:{path:google.maps.SymbolPath.CIRCLE,scale:3.5,fillColor:'#6c8ebf',fillOpacity:.8,strokeColor:'#fff',strokeWeight:1}})); }));
+    if(n){ m.fitBounds(b,50); google.maps.event.addListenerOnce(m,'idle',()=>{ if(m.getZoom()>12) m.setZoom(12); }); }
+    else { m.setCenter({lat:20,lng:0}); m.setZoom(2); }
+  },[ready,trip]);
+  // the current photo: big red marker, panned into view if needed
+  useEffect(()=>{
+    if(!ready) return; const m=map.current;
+    if(cur.current){cur.current.setMap(null);cur.current=null;}
+    if(!has(photo)) return;
+    const pos={lat:photo.latitude,lng:photo.longitude};
+    cur.current=new google.maps.Marker({map:m,position:pos,zIndex:9999,title:photo.description||'',
+      icon:{path:google.maps.SymbolPath.CIRCLE,scale:10,fillColor:'#e03131',fillOpacity:1,strokeColor:'#fff',strokeWeight:3}});
+    const b=m.getBounds(); if(b&&!b.contains(pos)) m.panTo(pos);
+  },[ready,photo,trip]);
+  useEffect(()=>{ if(!ready||!window.ResizeObserver) return; const box=el.current.parentElement;
+    const ro=new ResizeObserver(()=>{ if(box.clientWidth) google.maps.event.trigger(map.current,'resize'); });
+    ro.observe(box); return ()=>ro.disconnect(); },[ready]);
+  return <div className="mp">
+    <div className="m" ref={el}/>
+    {err&&<div className="nol">{err}</div>}
+    {!err&&!has(photo)&&<div className="nol">This photo has no location</div>}
+  </div>;
+}
+
+function RandomView({trips,onGo,auto,onlyGps}){
+  const [hist,setHist]=useState([]),[idx,setIdx]=useState(-1);
+  const box=useRef();
+  const [lw,setLw]=useState(()=>{ try{ return +localStorage.getItem('randLeftW')||0; }catch{ return 0; } }),[dragging,setDragging]=useState(false);
+  const onSplit=e=>{ if(!dragging) return; const r=box.current.getBoundingClientRect();
+    setLw(Math.round(Math.min(r.width-250,Math.max(220,e.clientX-r.left-12)))); };   /* text + map column on the left */
+  const endSplit=()=>setDragging(false);
+  useEffect(()=>{ try{ lw?localStorage.setItem('randLeftW',String(lw)):localStorage.removeItem('randLeftW'); }catch{} },[lw]);   // remembered between visits
+  const {all,gps}=React.useMemo(()=>{ const all=[],gps=[];
+    trips.forEach((t,ti)=>t.albums.forEach((a,ai)=>(a.photos||[]).forEach((p,pi)=>{ const r={ti,ai,pi}; all.push(r); if(p.latitude!=null&&p.longitude!=null) gps.push(r); })));
+    return {all,gps}; },[trips]);
+  const list=onlyGps&&gps.length?gps:all;
+  const pick=()=>{ if(!list.length) return; const r=list[Math.floor(Math.random()*list.length)];
+    const nh=[...hist.slice(0,idx+1),r].slice(-60); setHist(nh); setIdx(nh.length-1); };
+  const next=()=>idx<hist.length-1?setIdx(idx+1):pick();
+  const back=()=>idx>0&&setIdx(idx-1);
+  const live=useRef(); live.current={next,back};
+  const cur=hist[idx], trip=cur&&trips[cur.ti], album=trip&&trip.albums[cur.ai], photo=album&&(album.photos||[])[cur.pi];
+  useEffect(()=>{ if((!cur||!photo)&&list.length) pick(); },[list.length,!!photo]);        // first photo (or after data changed)
+  useEffect(()=>{ if(!auto) return; const id=setInterval(()=>live.current.next(),auto*1000); return ()=>clearInterval(id); },[auto]);
+  useEffect(()=>{ const k=e=>{ if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT') return;
+      if(e.key==='ArrowRight') live.current.next(); if(e.key==='ArrowLeft') live.current.back(); };
+    window.addEventListener('keydown',k); return ()=>window.removeEventListener('keydown',k); },[]);
+  if(!list.length) return <div className="note">No photos in trips.json yet.</div>;
+  if(!photo) return <div className="note">Loading…</div>;
+  const place=photo.location&&[photo.location.city,photo.location.region,photo.location.country].filter(Boolean).join(', ');
+  return <div className="rand" ref={box} style={lw?{'--lw':lw+'px'}:undefined}>
+    <div className="lcol">
+      <div className="top">
+        <div className="info">
+          <b>{clean(trip.title)} <span style={{opacity:.5}}>›</span> {album.title}</b>
+          {photo.description&&<div>{photo.description}</div>}
+          {photo.notes&&photo.notes.photo&&<div>{photo.notes.photo}</div>}
+          {photo.notes&&photo.notes.album&&<div style={{opacity:.7}}>Album: {photo.notes.album}</div>}
+          <div style={{opacity:.7}}>{[photo.takenAt&&photo.takenAt.replace('T',' '),place].filter(Boolean).join(' · ')} · <a style={{color:'#1c6dd0',cursor:'pointer'}} onClick={()=>onGo(cur.ti,cur.ai)}>Open this album</a></div>
+        </div>
+      </div>
+      <TripMap trip={trip} photo={photo}/>
+    </div>
+    <div className={"rsplit"+(dragging?" drag":"")} title="Drag to resize (double-click to reset)"
+      onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);setDragging(true);}}
+      onPointerMove={onSplit} onPointerUp={endSplit} onPointerCancel={endSplit}
+      onDoubleClick={()=>setLw(0)}/>
+    <div className="pic" title="Click for another random photo" onClick={next}><img key={photo.url} src={sz(photo.url,2000)} referrerPolicy="no-referrer"/></div>
+  </div>;
+}
+
+function Settings({auto,setAuto,onlyGps,setOnlyGps}){
+  return <div className="settings">
+    <h2>Settings</h2>
+    <div className="opt"><label><b>Auto-advance</b>{' '}
+      <select value={auto} onChange={e=>setAuto(+e.target.value)}>
+        <option value="0">off</option><option value="5">every 5 seconds</option><option value="10">every 10 seconds</option><option value="20">every 20 seconds</option>
+      </select></label>
+      <small>Random tab: show a new random photo automatically. With this off, click the photo (or press the Right arrow key) for the next one.</small></div>
+    <div className="opt"><label><input type="checkbox" checked={onlyGps} onChange={e=>setOnlyGps(e.target.checked)}/> <b>Only photos with a location</b></label>
+      <small>Random tab: pick only photos that have GPS data, so the map always has a dot to show.</small></div>
+  </div>;
+}
+
+function App(){
+  const [data,setData]=useState(null),[err,setErr]=useState(''),[ti,setTi]=useState(null),[ai,setAi]=useState(null),[pi,setPi]=useState(null),[q,setQ]=useState('');
+  const mainRef=useRef();
+  const [size,setSize]=useState(()=>{ try{ return JSON.parse(localStorage.getItem('panelSize'))||{}; }catch{ return {}; } });
+  const [drag,setDrag]=useState(false);
+  const narrow=()=>window.matchMedia('(max-width:800px)').matches;
+  const onSplit=e=>{ if(!drag) return; const r=mainRef.current.getBoundingClientRect();
+    if(narrow()) setSize(z=>({...z,h:Math.round(Math.min(r.height-150,Math.max(150,r.bottom-e.clientY)))}));
+    else setSize(z=>({...z,w:Math.round(Math.min(r.width-200,Math.max(280,r.right-e.clientX)))})); };
+  const endSplit=()=>{ setDrag(false); try{localStorage.setItem('panelSize',JSON.stringify(size));}catch{} };
+  const [hover,setHover]=useState(null),[tab,setTab]=useState('random'),[bounds,setBounds]=useState(null),[onlyView,setOnlyView]=useState(true),[stamp,setStamp]=useState('');
+  const lastText=useRef(''), fromFile=useRef(false);
+  const loadServer=initial=>fetch('trips.json?'+Date.now(),{cache:'no-store'})
+    .then(r=>{if(!r.ok)throw 0;return r.text()})
+    .then(tx=>{ if(fromFile.current) return; setStamp(new Date().toLocaleTimeString());
+      if(tx!==lastText.current){lastText.current=tx;setData(fixData(JSON.parse(tx)));setErr('');} })
+    .catch(()=>{ if(initial) setErr('Could not load trips.json automatically (open this page through a local web server) – or choose the file below.'); });
+  useEffect(()=>{loadServer(true)},[]);
+  // whenever the map moves / zooms / is resized: re-read trips.json (debounced)
+  useEffect(()=>{ if(!bounds) return; const id=setTimeout(()=>loadServer(false),400); return ()=>clearTimeout(id); },[bounds]);
+  const load=e=>{const f=e.target.files[0]; if(!f)return; const r=new FileReader();
+    r.onload=()=>{try{fromFile.current=true;setData(fixData(JSON.parse(r.result)));setErr('');setTi(null);setAi(null);}catch{setErr('Invalid JSON file.')}}; r.readAsText(f);};
+  useEffect(()=>{ if(hover&&hover.src==='map'){ const el=document.querySelector(`.grid img[data-i="${hover.i}"]`); el&&el.scrollIntoView({block:'nearest'}); } },[hover]);
+  useEffect(()=>{ setHover(null); },[ti,ai,tab]);
+  const trips=data?data.trips:[];
+  const T=tab==='trips', S=tab==='stats', R=tab==='random', G=tab==='settings';
+  // Random-tab settings, remembered between visits
+  const [auto,setAuto]=useState(()=>{ try{ const v=+localStorage.getItem('randAuto'); return [5,10,20].includes(v)?v:0; }catch{ return 0; } });
+  const [onlyGps,setOnlyGps]=useState(()=>{ try{ return localStorage.getItem('randOnlyGps')!=='0'; }catch{ return true; } });
+  useEffect(()=>{ try{ localStorage.setItem('randAuto',String(auto)); }catch{} },[auto]);
+  useEffect(()=>{ try{ localStorage.setItem('randOnlyGps',onlyGps?'1':'0'); }catch{} },[onlyGps]);
+  const trip=ti!=null?trips[ti]:null, album=trip&&ai!=null?trip.albums[ai]:null, photos=album?(album.photos||[]):[];
+  const matches=trips.map((t,i)=>({t,i})).filter(({t})=>clean(t.title).toLowerCase().includes(q.toLowerCase()));
+  const shown=onlyView?matches.filter(({t})=>inView(t,bounds)):matches;
+  return <>
+    <nav className="topbar">
+      <h1>Travel Maps</h1>
+      <div className="tabs" role="tablist">
+        <button role="tab" aria-selected={R} className={R?'on':''} onClick={()=>setTab('random')}>Random</button>
+        <button role="tab" aria-selected={T} className={T?'on':''} onClick={()=>setTab('trips')}>Trips</button>
+        <button role="tab" aria-selected={S} className={S?'on':''} onClick={()=>setTab('stats')}>Statistics</button>
+        <button role="tab" aria-selected={G} className={G?'on':''} onClick={()=>setTab('settings')}>Settings</button>
+      </div>
+    </nav>
+    <div ref={mainRef} className={"main"+(S?" stats":"")} style={{...(size.w?{'--pw':size.w+'px'}:{}),...(size.h?{'--ph':size.h+'px'}:{})}}>
+    <MapView trips={trips} ti={ti} ai={ai} onTrip={i=>{setTi(i);setAi(null)}} onAlbum={setAi} onPhoto={setPi} onBounds={setBounds} hover={hover} onHover={setHover} visible={T}/>
+    {T&&<div className={"split"+(drag?" drag":"")} title="Drag to resize the map"
+      onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);setDrag(true);}}
+      onPointerMove={onSplit} onPointerUp={endSplit} onPointerCancel={endSplit}
+      onDoubleClick={()=>{setSize({});try{localStorage.removeItem('panelSize')}catch{}}}/>}
+    {R&&data&&<RandomView auto={auto} onlyGps={onlyGps} trips={trips} onGo={(a,b)=>{setTab('trips');setTi(a);setAi(b);}}/>}
+    {G&&<Settings auto={auto} setAuto={setAuto} onlyGps={onlyGps} setOnlyGps={setOnlyGps}/>}
+    <aside style={(R||G)?{display:'none'}:undefined}>
+      <header>
+        {T&&<div className="crumbs">
+          <a onClick={()=>{setTi(null);setAi(null)}}>All trips</a>
+          {trip&&<> › <a onClick={()=>setAi(null)}>{clean(trip.title)}</a></>}
+          {album&&<> › {album.title}</>}
+        </div>}
+        {T&&!trip&&data&&<>
+          <input type="search" placeholder="Search trips…" value={q} onChange={e=>setQ(e.target.value)}/>
+          <div className="crumbs" style={{marginTop:6}}>
+            <label><input type="checkbox" checked={onlyView} onChange={e=>setOnlyView(e.target.checked)}/> Only trips in map view</label>
+            {' '}· {shown.length} of {matches.length} trips{stamp&&!fromFile.current&&` · reloaded ${stamp}`}
+          </div>
+        </>}
+        {(err||!data)&&<div className="note">{err}<br/><input type="file" accept=".json" onChange={load}/></div>}
+      </header>
+      {T&&!trip&&shown.length===0&&data&&<div className="note">No trips in this part of the map – zoom out or pan.</div>}
+      {T&&!trip&&shown.map(({t,i})=>
+        <div className="row" key={i} onClick={()=>{setTi(i);setAi(null)}}>
+          <div><b>{clean(t.title)}</b><small>{t.albums.length} albums · {nPhotos(t)} photos{t.country&&' · '+t.country}{!loc(t)&&' · no location'}</small></div>
+        </div>)}
+      {T&&trip&&!album&&<>
+        {trip.albums.length===0&&<div className="note">No albums for this trip.</div>}
+        {trip.albums.map((a,i)=>
+          <div className="row" key={i} onClick={()=>setAi(i)}>
+            {a.coverImage&&<img src={a.coverImage} referrerPolicy="no-referrer"/>}
+            <div><b>{a.title}</b><small>{a.dates||''} · {(a.photos||[]).length} photos{a.country&&' · '+a.country}{!loc(a)&&' · no location'}</small></div>
+          </div>)}
+        <div className="note"><a href={trip.url} target="_blank">Open original page</a></div>
+      </>}
+      {T&&album&&<>
+        <div className="note">{album.dates} · <a href={album.url} target="_blank">Open Google Photos album</a>{album.notes&&<div className="anote">{album.notes}</div>}</div>
+        <div className="grid">
+          {photos.map((p,i)=><img key={i} data-i={i} className={hover&&hover.i===i?'hl':''} loading="lazy" referrerPolicy="no-referrer" src={sz(p.url,400)} title={p.description} onClick={()=>setPi(i)}
+            onMouseEnter={()=>setHover({i,src:'list'})} onMouseLeave={()=>setHover(null)}/>)}
+        </div>
+        {!photos.length&&<div className="note">No photos in the JSON for this album.</div>}
+      </>}
+      {S&&data&&<Stats trips={trips} onPick={i=>{setTab('trips');setTi(i);setAi(null)}}/>}
+    </aside>
+    </div>
+    {pi!=null&&photos[pi]&&<Lightbox photos={photos} i={pi} setI={setPi} trip={trip&&trip.title} album={album&&album.title}/>}
+  </>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

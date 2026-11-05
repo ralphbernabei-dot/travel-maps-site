@@ -97,6 +97,7 @@ const sz = (u,w) => u.replace(/=w\d+-h\d+$/,'') + '=w' + w;
 const loc = o => o && o.averageLocation ? [o.averageLocation.latitude,o.averageLocation.longitude] : null;
 const inView = (t,b) => { const p=loc(t); if(!p||!b) return false;
   return p[0]>=b.s && p[0]<=b.n && [-360,0,360].some(k=>p[1]+k>=b.w && p[1]+k<=b.e); };
+const fmtSize = n => n==null ? 'unknown' : n>=1048576 ? (n/1048576).toFixed(1)+' MB' : Math.max(1,Math.round(n/1024))+' KB';
 const nPhotos = t => t.albums.reduce((n,a)=>n+(a.photos?a.photos.length:0),0);
 
 // Country fields are comma-separated strings ("Kenya, Tanzania") on photo / album / trip.
@@ -352,21 +353,23 @@ function TripMap({trip,photo}){
     if(!ready) return; const m=map.current;
     dots.current.forEach(d=>d.setMap(null)); dots.current=[];
     const b=new google.maps.LatLngBounds(); let n=0;
-    trip.albums.forEach(a=>(a.photos||[]).forEach(x=>{ if(!has(x)) return; n++;
-      const pos={lat:x.latitude,lng:x.longitude}; b.extend(pos);
-      dots.current.push(new google.maps.Marker({map:m,position:pos,clickable:false,
-        icon:{path:google.maps.SymbolPath.CIRCLE,scale:3.5,fillColor:'#6c8ebf',fillOpacity:.8,strokeColor:'#fff',strokeWeight:1}})); }));
+    const pts=[]; trip.albums.forEach(a=>(a.photos||[]).forEach(x=>{ if(has(x)) pts.push(x); }));
+    const MAXDOTS=200, step=Math.max(1,Math.ceil(pts.length/MAXDOTS));   // very many markers freeze iPad browsers
+    pts.forEach((x,i)=>{ n++; const pos={lat:x.latitude,lng:x.longitude}; b.extend(pos);   // bounds use every photo
+      if(i%step) return;
+      dots.current.push(new google.maps.Marker({map:m,position:pos,clickable:false,optimized:true,
+        icon:{path:google.maps.SymbolPath.CIRCLE,scale:3.5,fillColor:'#6c8ebf',fillOpacity:.8,strokeColor:'#fff',strokeWeight:1}})); });
     if(n){ m.fitBounds(b,50); google.maps.event.addListenerOnce(m,'idle',()=>{ if(m.getZoom()>12) m.setZoom(12); }); }
     else { m.setCenter({lat:20,lng:0}); m.setZoom(2); }
   },[ready,trip]);
   // the current photo: big red marker, panned into view if needed
   useEffect(()=>{
     if(!ready) return; const m=map.current;
-    if(cur.current){cur.current.setMap(null);cur.current=null;}
-    if(!has(photo)) return;
-    const pos={lat:photo.latitude,lng:photo.longitude};
-    cur.current=new google.maps.Marker({map:m,position:pos,zIndex:9999,title:photo.description||'',
+    if(!cur.current) cur.current=new google.maps.Marker({zIndex:9999,optimized:true,
       icon:{path:google.maps.SymbolPath.CIRCLE,scale:10,fillColor:'#e03131',fillOpacity:1,strokeColor:'#fff',strokeWeight:3}});
+    if(!has(photo)){ cur.current.setMap(null); return; }
+    const pos={lat:photo.latitude,lng:photo.longitude};
+    cur.current.setPosition(pos); cur.current.setTitle(photo.description||''); cur.current.setMap(m);
     const b=m.getBounds(); if(b&&!b.contains(pos)) m.panTo(pos);
   },[ready,photo,trip]);
   useEffect(()=>{ if(!ready||!window.ResizeObserver) return; const box=el.current.parentElement;
@@ -379,8 +382,8 @@ function TripMap({trip,photo}){
   </div>;
 }
 
-function RandomView({trips,onGo,auto,onlyGps}){
-  const [hist,setHist]=useState([]),[idx,setIdx]=useState(-1);
+function RandomView({trips,onGo,auto,onlyGps,debug}){
+  const [hist,setHist]=useState([]),[idx,setIdx]=useState(-1),[tick,setTick]=useState(0),[shown,setShown]=useState(0);   // tick: bumps on every photo change; shown: random photos displayed so far
   const box=useRef();
   const [lw,setLw]=useState(()=>{ try{ return +localStorage.getItem('randLeftW')||0; }catch{ return 0; } }),[dragging,setDragging]=useState(false);
   const onSplit=e=>{ if(!dragging) return; const r=box.current.getBoundingClientRect();
@@ -392,13 +395,14 @@ function RandomView({trips,onGo,auto,onlyGps}){
     return {all,gps}; },[trips]);
   const list=onlyGps&&gps.length?gps:all;
   const pick=()=>{ if(!list.length) return; const r=list[Math.floor(Math.random()*list.length)];
-    const nh=[...hist.slice(0,idx+1),r].slice(-60); setHist(nh); setIdx(nh.length-1); };
-  const next=()=>idx<hist.length-1?setIdx(idx+1):pick();
-  const back=()=>idx>0&&setIdx(idx-1);
+    const nh=[...hist.slice(0,idx+1),r].slice(-60); setHist(nh); setIdx(nh.length-1); setShown(c=>c+1); };
+  const next=()=>{ setTick(t=>t+1); idx<hist.length-1?setIdx(idx+1):pick(); };
+  const back=()=>{ if(idx>0){ setTick(t=>t+1); setIdx(idx-1); } };
   const live=useRef(); live.current={next,back};
   const cur=hist[idx], trip=cur&&trips[cur.ti], album=trip&&trip.albums[cur.ai], photo=album&&(album.photos||[])[cur.pi];
   useEffect(()=>{ if((!cur||!photo)&&list.length) pick(); },[list.length,!!photo]);        // first photo (or after data changed)
-  useEffect(()=>{ if(!auto) return; const id=setInterval(()=>live.current.next(),auto*1000); return ()=>clearInterval(id); },[auto]);
+  // auto-advance: a self-rescheduling timer (restarts after every photo, so one slow/failed load can't stall it)
+  useEffect(()=>{ if(!auto) return; const id=setTimeout(()=>live.current.next(),auto*1000); return ()=>clearTimeout(id); },[auto,tick]);
   useEffect(()=>{ const k=e=>{ if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT') return;
       if(e.key==='ArrowRight') live.current.next(); if(e.key==='ArrowLeft') live.current.back(); };
     window.addEventListener('keydown',k); return ()=>window.removeEventListener('keydown',k); },[]);
@@ -413,6 +417,7 @@ function RandomView({trips,onGo,auto,onlyGps}){
           {photo.description&&<div>{photo.description}</div>}
           {photo.notes&&photo.notes.photo&&<div>{photo.notes.photo}</div>}
           {photo.notes&&photo.notes.album&&<div style={{opacity:.7}}>Album: {photo.notes.album}</div>}
+          {debug&&<div style={{opacity:.7}}>Random photos shown: <b style={{fontSize:'inherit'}}>{shown}</b> · File size: <b style={{fontSize:'inherit'}}>{fmtSize(photo.fileSize)}</b></div>}
           <div style={{opacity:.7}}>{[photo.takenAt&&photo.takenAt.replace('T',' '),place].filter(Boolean).join(' · ')} · <a style={{color:'#1c6dd0',cursor:'pointer'}} onClick={()=>onGo(cur.ti,cur.ai)}>Open this album</a></div>
         </div>
       </div>
@@ -422,11 +427,11 @@ function RandomView({trips,onGo,auto,onlyGps}){
       onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);setDragging(true);}}
       onPointerMove={onSplit} onPointerUp={endSplit} onPointerCancel={endSplit}
       onDoubleClick={()=>setLw(0)}/>
-    <div className="pic" title="Click for another random photo" onClick={next}><img key={photo.url} src={sz(photo.url,2000)} referrerPolicy="no-referrer"/></div>
+    <div className="pic" title="Click for another random photo" onClick={next}><img key={photo.url} src={sz(photo.url,1280)} decoding="async" referrerPolicy="no-referrer" onError={()=>setTimeout(()=>live.current.next(),1000)}/></div>
   </div>;
 }
 
-function Settings({auto,setAuto,onlyGps,setOnlyGps}){
+function Settings({auto,setAuto,onlyGps,setOnlyGps,debug,setDebug}){
   return <div className="settings">
     <h2>Settings</h2>
     <div className="opt"><label><b>Auto-advance</b>{' '}
@@ -436,6 +441,8 @@ function Settings({auto,setAuto,onlyGps,setOnlyGps}){
       <small>Random tab: show a new random photo automatically. With this off, click the photo (or press the Right arrow key) for the next one.</small></div>
     <div className="opt"><label><input type="checkbox" checked={onlyGps} onChange={e=>setOnlyGps(e.target.checked)}/> <b>Only photos with a location</b></label>
       <small>Random tab: pick only photos that have GPS data, so the map always has a dot to show.</small></div>
+    <div className="opt"><label><input type="checkbox" checked={debug} onChange={e=>setDebug(e.target.checked)}/> <b>Debug</b></label>
+      <small>Random tab: show the “Random photos shown” count and the photo’s file size.</small></div>
   </div>;
 }
 
@@ -469,6 +476,8 @@ function App(){
   const [auto,setAuto]=useState(()=>{ try{ const raw=localStorage.getItem('randAuto'); if(raw===null) return 20;   // default: 20 seconds
     const v=+raw; return [0,5,10,20].includes(v)?v:20; }catch{ return 20; } });
   const [onlyGps,setOnlyGps]=useState(()=>{ try{ return localStorage.getItem('randOnlyGps')!=='0'; }catch{ return true; } });
+  const [debug,setDebug]=useState(()=>{ try{ return localStorage.getItem('debug')==='1'; }catch{ return false; } });   // default: unchecked
+  useEffect(()=>{ try{ localStorage.setItem('debug',debug?'1':'0'); }catch{} },[debug]);
   useEffect(()=>{ try{ localStorage.setItem('randAuto',String(auto)); }catch{} },[auto]);
   useEffect(()=>{ try{ localStorage.setItem('randOnlyGps',onlyGps?'1':'0'); }catch{} },[onlyGps]);
   const trip=ti!=null?trips[ti]:null, album=trip&&ai!=null?trip.albums[ai]:null, photos=album?(album.photos||[]):[];
@@ -490,8 +499,8 @@ function App(){
       onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);setDrag(true);}}
       onPointerMove={onSplit} onPointerUp={endSplit} onPointerCancel={endSplit}
       onDoubleClick={()=>{setSize({});try{localStorage.removeItem('panelSize')}catch{}}}/>}
-    {R&&data&&<RandomView auto={auto} onlyGps={onlyGps} trips={trips} onGo={(a,b)=>{setTab('trips');setTi(a);setAi(b);}}/>}
-    {G&&<Settings auto={auto} setAuto={setAuto} onlyGps={onlyGps} setOnlyGps={setOnlyGps}/>}
+    {R&&data&&<RandomView auto={auto} onlyGps={onlyGps} debug={debug} trips={trips} onGo={(a,b)=>{setTab('trips');setTi(a);setAi(b);}}/>}
+    {G&&<Settings auto={auto} setAuto={setAuto} onlyGps={onlyGps} setOnlyGps={setOnlyGps} debug={debug} setDebug={setDebug}/>}
     <aside style={(R||G)?{display:'none'}:undefined}>
       <header>
         {T&&<div className="crumbs">

@@ -71,7 +71,7 @@ input[type=search]{width:100%;padding:7px 9px;margin-top:8px;border:1px solid #c
 .rand .rsplit{flex:none;width:9px;cursor:col-resize;touch-action:none;position:relative}
 .rand .rsplit::before{content:'';position:absolute;top:0;bottom:0;left:3px;width:3px;border-radius:2px;background:#cfd6e4}
 .rand .rsplit:hover::before,.rand .rsplit.drag::before{background:#1c6dd0}
-.rand .pic{flex:1;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;background:#111;border-radius:8px;overflow:hidden;cursor:pointer}
+.rand .pic{flex:1;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #ddd;border-radius:8px;overflow:hidden;cursor:pointer}
 .rand .pic img{max-width:100%;max-height:100%;object-fit:contain}
 .rand .info b{font-size:17px}
 .rand .info div{margin-top:2px}
@@ -199,7 +199,7 @@ function Stats({trips,onPick}){
 // The API needs a key (https://console.cloud.google.com/google/maps-apis -> enable "Maps JavaScript API").
 // Provide it once: it is read from ?key=... in the page address, or typed into the box below
 // (then remembered in this browser).
-const APP_VERSION=1;   // Claude: bump this by 1 every time a new version of index.html is produced
+const APP_VERSION=2;   // Claude: bump this by 1 every time a new version of index.html is produced
 const GOOGLE_MAPS_KEY='AIzaSyAJ7Cl38prkz4-cQcU4HlZ-Ha0IqpG7rLk';   // built-in key; ?key=... in the address or a saved key overrides it
 const getKey=()=>{ try{ return new URLSearchParams(location.search).get('key')||localStorage.getItem('gmapsKey')||GOOGLE_MAPS_KEY; }catch{ return GOOGLE_MAPS_KEY; } };
 let gmapsPromise=null;

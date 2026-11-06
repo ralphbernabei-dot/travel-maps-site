@@ -1,12 +1,11 @@
 {
-  "lastModified":"2026/22/5",
   "trips": [
     {
       "title": "Nassau Bahamas March 1997",
       "url": "https://sites.google.com/view/myworldtravels/our-trips/nassau-bahamas-march-1997",
       "albums": [
         {
-          "title": "Nassau Bahamas March 1997",
+          "title": "Nassau Bahamas March 1987",
           "dates": "Sunday, Mar 15, 1987",
           "url": "https://photos.google.com/share/AF1QipNzcUDEuE55EmtFplNpTTZ1J0Q8dkhbXhpujeSvdaJ8ScmZ-tnYNrlZdDE8kLwdhg?key=WjNVckZvRXBJLUljM0JLRzlyX0J0a1lza3VibGV3",
           "coverImage": "https://lh3.googleusercontent.com/pw/AP1GczN_yjl2a8WzNIXGcfSFCbDhVuIpXPjwLPpIUe27nF1aS6DvvbehZj0na1IiCfFHlPW1gHyFhB25mazm4waJUXPqxxeamOhAyLMKcr4hNEl5cFsHnuEC=w600-h315-p-k",
@@ -4419,7 +4418,7 @@
         {
           "title": "Photo Album",
           "dates": null,
-          "url": "https://accounts.google.com/v3/signin/identifier?continue=https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z&followup=https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z&osid=1&passive=1209600&service=lh2&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S386240245:1793907767362262",
+          "url": "https://accounts.google.com/v3/signin/identifier?continue=https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z&followup=https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z&osid=1&passive=1209600&service=lh2&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S1258567564:1793990211488045",
           "coverImage": null,
           "shortUrl": "https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z",
           "notes": "",
@@ -7754,46 +7753,6 @@
           },
           "photos": [
             {
-              "url": "https://lh3.googleusercontent.com/pw/AP1GczNyGmSuSfS4akXpYzTGtPsi73LrDxCdugN3Ud_PXCmmJ76bar6kxpFBlP4sSFcuWhQ69qf4c7yHdbUBs_5XquGHpagoSo5bCiQLFadWWCJtpAcqUKAL=w4032-h3024",
-              "width": 4032,
-              "height": 3024,
-              "takenAt": "2018-01-13T16:24:11",
-              "latitude": 4.892494,
-              "longitude": 114.934783,
-              "fileSize": 1309295,
-              "altitude": 24,
-              "country": "Brunei",
-              "countryCode": "BN",
-              "continent": "Asia",
-              "location": {
-                "v2": true,
-                "displayName": "Jalan Raja Isteri Pengiran Anak Saleha, Parit, Bandar Seri Begawan, Mukim Kianggeh, Mukim Gadong B, Brunei-Muara District, BE1518, Brunei",
-                "place": "Jalan Raja Isteri Pengiran Anak Saleha",
-                "placeType": "highway: primary",
-                "road": "Jalan Raja Isteri Pengiran Anak Saleha",
-                "neighbourhood": "Parit",
-                "city": "Bandar Seri Begawan",
-                "county": null,
-                "region": null,
-                "postcode": "BE1518",
-                "country": "Brunei",
-                "countryCode": "BN"
-              },
-              "camera": "samsung SM-G930V",
-              "lens": null,
-              "settings": {
-                "fNumber": 1.7,
-                "exposureTime": "1/2036",
-                "iso": 50,
-                "focalLength": 4.2
-              },
-              "description": "Jalan Raja Isteri Pengiran Anak Saleha, Parit, Bandar Seri Begawan, Brunei (highway: primary).",
-              "notes": {
-                "album": "",
-                "photo": ""
-              }
-            },
-            {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczO2UaRSptzZSrDeM_T-6UeqRDWLeE7a31E8O5b8StD9ZIBKkU3C-PkL5kKXj3ueLmUcsZtTuNlZ3XG8DXU9rAmcUMrlmmHT3TkWB2pSeHAx08SY6vyn=w4032-h3024",
               "width": 4032,
               "height": 3024,
@@ -7825,6 +7784,46 @@
                 "fNumber": 1.7,
                 "exposureTime": null,
                 "iso": null,
+                "focalLength": 4.2
+              },
+              "description": "Jalan Raja Isteri Pengiran Anak Saleha, Parit, Bandar Seri Begawan, Brunei (highway: primary).",
+              "notes": {
+                "album": "",
+                "photo": ""
+              }
+            },
+            {
+              "url": "https://lh3.googleusercontent.com/pw/AP1GczNyGmSuSfS4akXpYzTGtPsi73LrDxCdugN3Ud_PXCmmJ76bar6kxpFBlP4sSFcuWhQ69qf4c7yHdbUBs_5XquGHpagoSo5bCiQLFadWWCJtpAcqUKAL=w4032-h3024",
+              "width": 4032,
+              "height": 3024,
+              "takenAt": "2018-01-13T16:24:11",
+              "latitude": 4.892494,
+              "longitude": 114.934783,
+              "fileSize": 1309295,
+              "altitude": 24,
+              "country": "Brunei",
+              "countryCode": "BN",
+              "continent": "Asia",
+              "location": {
+                "v2": true,
+                "displayName": "Jalan Raja Isteri Pengiran Anak Saleha, Parit, Bandar Seri Begawan, Mukim Kianggeh, Mukim Gadong B, Brunei-Muara District, BE1518, Brunei",
+                "place": "Jalan Raja Isteri Pengiran Anak Saleha",
+                "placeType": "highway: primary",
+                "road": "Jalan Raja Isteri Pengiran Anak Saleha",
+                "neighbourhood": "Parit",
+                "city": "Bandar Seri Begawan",
+                "county": null,
+                "region": null,
+                "postcode": "BE1518",
+                "country": "Brunei",
+                "countryCode": "BN"
+              },
+              "camera": "samsung SM-G930V",
+              "lens": null,
+              "settings": {
+                "fNumber": 1.7,
+                "exposureTime": "1/2036",
+                "iso": 50,
                 "focalLength": 4.2
               },
               "description": "Jalan Raja Isteri Pengiran Anak Saleha, Parit, Bandar Seri Begawan, Brunei (highway: primary).",
@@ -23221,46 +23220,6 @@
           },
           "photos": [
             {
-              "url": "https://lh3.googleusercontent.com/pw/AP1GczMSMVsApcYU5k88gU7qt2PA6CY8we-Z7IItVd8A5VrsszJRI7cplI6zfDt1VJencwSgCs5mAdcfpNgz9mTVPxIpPjNrlm0EYNQdLIMsHQzPV5t05CCe=w4160-h3120",
-              "width": 4160,
-              "height": 3120,
-              "takenAt": "2019-03-16T19:41:39",
-              "latitude": 59.953793,
-              "longitude": 30.353462,
-              "fileSize": 815104,
-              "altitude": 11,
-              "country": "Russia",
-              "countryCode": "RU",
-              "continent": "Europe",
-              "location": {
-                "v2": true,
-                "displayName": "Михайловская военная артиллерийская академия, Литейный проспект, Литейный округ, Saint Petersburg, Northwestern Federal District, 191028, Russia",
-                "place": "Михайловская военная артиллерийская академия",
-                "placeType": "amenity: university",
-                "road": "Литейный проспект",
-                "neighbourhood": "Литейный округ",
-                "city": "Saint Petersburg",
-                "county": null,
-                "region": "Saint Petersburg",
-                "postcode": "191028",
-                "country": "Russia",
-                "countryCode": "RU"
-              },
-              "camera": "motorola moto g(6) play",
-              "lens": null,
-              "settings": {
-                "fNumber": 2,
-                "exposureTime": "1/25",
-                "iso": 500,
-                "focalLength": 3.5
-              },
-              "description": "Михайловская военная артиллерийская академия, Литейный проспект, Литейный округ, Saint Petersburg, Russia (amenity: university).",
-              "notes": {
-                "album": "",
-                "photo": ""
-              }
-            },
-            {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczNtk3-oMlmPgYejCuJ2sSv0ISMBAo6MUIdVRfdWwmWHo-TYe_lch4109hEqDzjVmVLwe-qD4AYO2ikncxNH3sbUUIRhFRdo1cYPER2FrYs2obRSDL8K=w3120-h4160",
               "width": 3120,
               "height": 4160,
@@ -23295,6 +23254,46 @@
                 "focalLength": 3.5
               },
               "description": "Lenin Square, Vyborg Side, Saint Petersburg, Russia.",
+              "notes": {
+                "album": "",
+                "photo": ""
+              }
+            },
+            {
+              "url": "https://lh3.googleusercontent.com/pw/AP1GczMSMVsApcYU5k88gU7qt2PA6CY8we-Z7IItVd8A5VrsszJRI7cplI6zfDt1VJencwSgCs5mAdcfpNgz9mTVPxIpPjNrlm0EYNQdLIMsHQzPV5t05CCe=w4160-h3120",
+              "width": 4160,
+              "height": 3120,
+              "takenAt": "2019-03-16T19:41:39",
+              "latitude": 59.953793,
+              "longitude": 30.353462,
+              "fileSize": 815104,
+              "altitude": 11,
+              "country": "Russia",
+              "countryCode": "RU",
+              "continent": "Europe",
+              "location": {
+                "v2": true,
+                "displayName": "Михайловская военная артиллерийская академия, Литейный проспект, Литейный округ, Saint Petersburg, Northwestern Federal District, 191028, Russia",
+                "place": "Михайловская военная артиллерийская академия",
+                "placeType": "amenity: university",
+                "road": "Литейный проспект",
+                "neighbourhood": "Литейный округ",
+                "city": "Saint Petersburg",
+                "county": null,
+                "region": "Saint Petersburg",
+                "postcode": "191028",
+                "country": "Russia",
+                "countryCode": "RU"
+              },
+              "camera": "motorola moto g(6) play",
+              "lens": null,
+              "settings": {
+                "fNumber": 2,
+                "exposureTime": "1/25",
+                "iso": 500,
+                "focalLength": 3.5
+              },
+              "description": "Михайловская военная артиллерийская академия, Литейный проспект, Литейный округ, Saint Petersburg, Russia (amenity: university).",
               "notes": {
                 "album": "",
                 "photo": ""
@@ -36334,46 +36333,6 @@
           },
           "photos": [
             {
-              "url": "https://lh3.googleusercontent.com/pw/AP1GczOySMPdumrd7uzmu4kz5WS-SOxfcCXGyqT65f36RgD3ewB-uXLShpmifKocjPvikwk3OR2yD8ZARfS0LjStJ01ZfFOLlK0Se_rdQtAwBzTINAItSJeB=w4160-h3120",
-              "width": 4160,
-              "height": 3120,
-              "takenAt": "2019-08-09T21:35:10",
-              "latitude": 24.408553,
-              "longitude": 54.47503,
-              "fileSize": 612710,
-              "altitude": 25,
-              "country": "United Arab Emirates",
-              "countryCode": "AE",
-              "continent": "Asia",
-              "location": {
-                "v2": true,
-                "displayName": "Sheikh Zayed Grand Mosque, Wahat Al Karama Street, Grand Mosque, Abu Dhabi, Abu Dhabi Emirate, United Arab Emirates",
-                "place": "Sheikh Zayed Grand Mosque",
-                "placeType": "amenity: parking",
-                "road": "Wahat Al Karama Street",
-                "neighbourhood": "Grand Mosque",
-                "city": "Abu Dhabi",
-                "county": "Abu Dhabi",
-                "region": "Abu Dhabi Emirate",
-                "postcode": null,
-                "country": "United Arab Emirates",
-                "countryCode": "AE"
-              },
-              "camera": "motorola moto g(6) play",
-              "lens": null,
-              "settings": {
-                "fNumber": 2,
-                "exposureTime": "1/14",
-                "iso": 800,
-                "focalLength": 3.5
-              },
-              "description": "Sheikh Zayed Grand Mosque, Wahat Al Karama Street, Grand Mosque, Abu Dhabi, Abu Dhabi Emirate, United Arab Emirates (amenity: parking).",
-              "notes": {
-                "album": "",
-                "photo": ""
-              }
-            },
-            {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczNJoW9E2FrKcfccgeSvS8AziLjvbHhL6SHxUaqMwtrGg-u0Trc4H1WDAf6byE_x9QKTL5VW4qgPT17_VONLN56JSsXs5UROXXw_UJFl9XJ4MvAUmRJs=w2592-h1944",
               "width": 2592,
               "height": 1944,
@@ -36406,6 +36365,46 @@
                 "exposureTime": "1/17",
                 "iso": 1600,
                 "focalLength": 2.4
+              },
+              "description": "Sheikh Zayed Grand Mosque, Wahat Al Karama Street, Grand Mosque, Abu Dhabi, Abu Dhabi Emirate, United Arab Emirates (amenity: parking).",
+              "notes": {
+                "album": "",
+                "photo": ""
+              }
+            },
+            {
+              "url": "https://lh3.googleusercontent.com/pw/AP1GczOySMPdumrd7uzmu4kz5WS-SOxfcCXGyqT65f36RgD3ewB-uXLShpmifKocjPvikwk3OR2yD8ZARfS0LjStJ01ZfFOLlK0Se_rdQtAwBzTINAItSJeB=w4160-h3120",
+              "width": 4160,
+              "height": 3120,
+              "takenAt": "2019-08-09T21:35:10",
+              "latitude": 24.408553,
+              "longitude": 54.47503,
+              "fileSize": 612710,
+              "altitude": 25,
+              "country": "United Arab Emirates",
+              "countryCode": "AE",
+              "continent": "Asia",
+              "location": {
+                "v2": true,
+                "displayName": "Sheikh Zayed Grand Mosque, Wahat Al Karama Street, Grand Mosque, Abu Dhabi, Abu Dhabi Emirate, United Arab Emirates",
+                "place": "Sheikh Zayed Grand Mosque",
+                "placeType": "amenity: parking",
+                "road": "Wahat Al Karama Street",
+                "neighbourhood": "Grand Mosque",
+                "city": "Abu Dhabi",
+                "county": "Abu Dhabi",
+                "region": "Abu Dhabi Emirate",
+                "postcode": null,
+                "country": "United Arab Emirates",
+                "countryCode": "AE"
+              },
+              "camera": "motorola moto g(6) play",
+              "lens": null,
+              "settings": {
+                "fNumber": 2,
+                "exposureTime": "1/14",
+                "iso": 800,
+                "focalLength": 3.5
               },
               "description": "Sheikh Zayed Grand Mosque, Wahat Al Karama Street, Grand Mosque, Abu Dhabi, Abu Dhabi Emirate, United Arab Emirates (amenity: parking).",
               "notes": {
@@ -61165,46 +61164,6 @@
           },
           "photos": [
             {
-              "url": "https://lh3.googleusercontent.com/pw/AP1GczM95AvpWuTy2E05UQVS2FdooEeAk1yAmqE2BDpCcq2-TBVkEExFaku9Uk5Pl2fy5mZa3KiQY9H9oHlVQrz-Uzng65FiELoBoTdD7hC4yyGNeQu4FWPq=w3024-h4032",
-              "width": 3024,
-              "height": 4032,
-              "takenAt": "2021-10-24T10:51:27",
-              "latitude": 50.087261,
-              "longitude": 14.42855,
-              "fileSize": 4166442,
-              "altitude": 250.7,
-              "country": "Czechia",
-              "countryCode": "CZ",
-              "continent": "Europe",
-              "location": {
-                "v2": true,
-                "displayName": "New Town, obvod Praha 1, Prague, 110 05, Czechia",
-                "place": null,
-                "placeType": "highway: pedestrian",
-                "road": null,
-                "neighbourhood": "New Town",
-                "city": "Prague",
-                "county": null,
-                "region": null,
-                "postcode": "110 05",
-                "country": "Czechia",
-                "countryCode": "CZ"
-              },
-              "camera": "Google Pixel 4a (5G)",
-              "lens": null,
-              "settings": {
-                "fNumber": 1.7,
-                "exposureTime": "1/5848",
-                "iso": 63,
-                "focalLength": 4.4
-              },
-              "description": "New Town, Prague, Czechia.",
-              "notes": {
-                "album": "",
-                "photo": ""
-              }
-            },
-            {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczOgR3D1o-2luHkcPYASkvol3Qrr6z4nGfyDLjKPn3Zwoih54wZ_h7thBey3HwMzfRknJvub9eIZx72992dddnLLtpy_b3bHT1SqCcqlL8Q6YSX861Iz=w4032-h3024",
               "width": 4032,
               "height": 3024,
@@ -61236,6 +61195,46 @@
                 "fNumber": 1.7,
                 "exposureTime": "1/5848",
                 "iso": 64,
+                "focalLength": 4.4
+              },
+              "description": "New Town, Prague, Czechia.",
+              "notes": {
+                "album": "",
+                "photo": ""
+              }
+            },
+            {
+              "url": "https://lh3.googleusercontent.com/pw/AP1GczM95AvpWuTy2E05UQVS2FdooEeAk1yAmqE2BDpCcq2-TBVkEExFaku9Uk5Pl2fy5mZa3KiQY9H9oHlVQrz-Uzng65FiELoBoTdD7hC4yyGNeQu4FWPq=w3024-h4032",
+              "width": 3024,
+              "height": 4032,
+              "takenAt": "2021-10-24T10:51:27",
+              "latitude": 50.087261,
+              "longitude": 14.42855,
+              "fileSize": 4166442,
+              "altitude": 250.7,
+              "country": "Czechia",
+              "countryCode": "CZ",
+              "continent": "Europe",
+              "location": {
+                "v2": true,
+                "displayName": "New Town, obvod Praha 1, Prague, 110 05, Czechia",
+                "place": null,
+                "placeType": "highway: pedestrian",
+                "road": null,
+                "neighbourhood": "New Town",
+                "city": "Prague",
+                "county": null,
+                "region": null,
+                "postcode": "110 05",
+                "country": "Czechia",
+                "countryCode": "CZ"
+              },
+              "camera": "Google Pixel 4a (5G)",
+              "lens": null,
+              "settings": {
+                "fNumber": 1.7,
+                "exposureTime": "1/5848",
+                "iso": 63,
                 "focalLength": 4.4
               },
               "description": "New Town, Prague, Czechia.",
@@ -100159,9 +100158,9 @@
           "country": "Australia",
           "continent": "Oceania",
           "averageLocation": {
-            "latitude": -34.019894,
-            "longitude": 151.129395,
-            "photosWithLocation": 66
+            "latitude": -34.022134,
+            "longitude": 151.128106,
+            "photosWithLocation": 65
           },
           "photos": [
             {
@@ -102168,41 +102167,24 @@
               "url": "https://lh3.googleusercontent.com/pw/AP1GczOLmfpx3rwmd7RHKh5bS98R4N9g30AY3uMBNuFAlxJcp4kG-4uD7EYAQN_e57oK1d5QUGEK3CW7hssXFg07UVr-PQjWgy8wELL0SlYIOb7n4abczXgg=w3024-h4032",
               "width": 3024,
               "height": 4032,
-              "takenAt": "2024-01-15T09:15:50",
-              "latitude": -33.87425,
-              "longitude": 151.213011,
-              "fileSize": 2857875,
-              "altitude": 46.1,
-              "country": "Australia",
-              "countryCode": "AU",
-              "continent": "Oceania",
-              "location": {
-                "v2": true,
-                "displayName": "6-8, Cross City Tunnel, Darlinghurst, Sydney, New South Wales, 2000, Australia",
-                "place": null,
-                "placeType": "amenity: cafe",
-                "road": "Cross City Tunnel",
-                "neighbourhood": "Darlinghurst",
-                "city": "Sydney",
-                "county": null,
-                "region": "New South Wales",
-                "postcode": "2000",
-                "country": "Australia",
-                "countryCode": "AU"
-              },
-              "camera": "Google Pixel 4a (5G)",
-              "lens": "Pixel 4a (5G) back camera 4.38mm f/1.73",
-              "settings": {
-                "fNumber": 1.7,
-                "exposureTime": "1/24",
-                "iso": 130,
-                "focalLength": 4.4
-              },
-              "description": "Cross City Tunnel, Darlinghurst, Sydney, New South Wales, Australia.",
+              "takenAt": null,
+              "latitude": null,
+              "longitude": null,
+              "fileSize": null,
+              "altitude": null,
+              "country": null,
+              "countryCode": null,
+              "continent": null,
+              "location": null,
+              "camera": null,
+              "lens": null,
+              "settings": null,
+              "description": "Location unknown (album \"Sydney Australia Jan\").",
               "notes": {
                 "album": "",
                 "photo": ""
-              }
+              },
+              "metadataError": "HTTP 500"
             },
             {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczOYbIgIAmcfh3QO14RTXThSTp9XsJx0bMt2g_8yJxuvymCpH6v8CYr_r8inBPakVniOop53-7VDEsB1d3RWnonbsPHTp_O5f-H_ABA7cEc69dPn1aHe=w3024-h4032",
@@ -167099,9 +167081,9 @@
       "country": "Cambodia, Italy, Thailand, Malta, Turkey, San Marino, New Zealand, Australia, Republic of Cyprus, United States of America, Slovenia, Liechtenstein, Monaco, Vietnam, Austria, France, Switzerland",
       "continent": "Europe, Asia, Oceania, North America",
       "averageLocation": {
-        "latitude": 40.58901,
-        "longitude": 61.126193,
-        "photosWithLocation": 1715
+        "latitude": 40.614313,
+        "longitude": 61.060635,
+        "photosWithLocation": 1714
       }
     },
     {
@@ -251243,46 +251225,6 @@
           },
           "photos": [
             {
-              "url": "https://lh3.googleusercontent.com/pw/AP1GczPhZ6RWt46AclZdVnl6ixSUhDtybTDNLjJPMyRfR_HOkNqVGJoYOUsIwyAcd_F-QihuAjlZyjS_PxaRC0ko74PeapsmyTvvlE9m8lIzUTL3NYfP05fw=w3024-h4032",
-              "width": 3024,
-              "height": 4032,
-              "takenAt": "2025-06-18T09:23:32",
-              "latitude": -20.158481,
-              "longitude": 57.503,
-              "fileSize": 5368640,
-              "altitude": 4.5,
-              "country": "Mauritius",
-              "countryCode": "MU",
-              "continent": "Africa",
-              "location": {
-                "v2": true,
-                "displayName": "Aapravasi Ghat, Rue Louis Pasteur, William Newton, Caudan Waterfront, Town of Port-Louis, Ward 3, Port Louis, 11602, Mauritius",
-                "place": "Aapravasi Ghat",
-                "placeType": "tourism: museum",
-                "road": "Rue Louis Pasteur",
-                "neighbourhood": "William Newton",
-                "city": "Port Louis",
-                "county": null,
-                "region": "Port Louis",
-                "postcode": "11602",
-                "country": "Mauritius",
-                "countryCode": "MU"
-              },
-              "camera": "Google Pixel 4a (5G)",
-              "lens": "Pixel 4a (5G) back camera 4.38mm f/1.73",
-              "settings": {
-                "fNumber": 1.7,
-                "exposureTime": "1/1462",
-                "iso": 57,
-                "focalLength": 4.4
-              },
-              "description": "Aapravasi Ghat, Rue Louis Pasteur, William Newton, Port Louis, Mauritius (tourism: museum).",
-              "notes": {
-                "album": "",
-                "photo": ""
-              }
-            },
-            {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczPi8fNI5dSVLS-JvtQBw1l8gw79fU0kIxZB7LEhVH7BFNIu5L-inkAD-Af1VJilIbmB0cFa6nlUXAOjwitFYn35P_-w97Ll5rrGOA0xjsKg32dW7YGx=w3024-h4032",
               "width": 3024,
               "height": 4032,
@@ -251474,6 +251416,46 @@
                 "fNumber": 1.7,
                 "exposureTime": "1/2924",
                 "iso": 62,
+                "focalLength": 4.4
+              },
+              "description": "Aapravasi Ghat, Rue Louis Pasteur, William Newton, Port Louis, Mauritius (tourism: museum).",
+              "notes": {
+                "album": "",
+                "photo": ""
+              }
+            },
+            {
+              "url": "https://lh3.googleusercontent.com/pw/AP1GczPhZ6RWt46AclZdVnl6ixSUhDtybTDNLjJPMyRfR_HOkNqVGJoYOUsIwyAcd_F-QihuAjlZyjS_PxaRC0ko74PeapsmyTvvlE9m8lIzUTL3NYfP05fw=w3024-h4032",
+              "width": 3024,
+              "height": 4032,
+              "takenAt": "2025-06-18T09:23:32",
+              "latitude": -20.158481,
+              "longitude": 57.503,
+              "fileSize": 5368640,
+              "altitude": 4.5,
+              "country": "Mauritius",
+              "countryCode": "MU",
+              "continent": "Africa",
+              "location": {
+                "v2": true,
+                "displayName": "Aapravasi Ghat, Rue Louis Pasteur, William Newton, Caudan Waterfront, Town of Port-Louis, Ward 3, Port Louis, 11602, Mauritius",
+                "place": "Aapravasi Ghat",
+                "placeType": "tourism: museum",
+                "road": "Rue Louis Pasteur",
+                "neighbourhood": "William Newton",
+                "city": "Port Louis",
+                "county": null,
+                "region": "Port Louis",
+                "postcode": "11602",
+                "country": "Mauritius",
+                "countryCode": "MU"
+              },
+              "camera": "Google Pixel 4a (5G)",
+              "lens": "Pixel 4a (5G) back camera 4.38mm f/1.73",
+              "settings": {
+                "fNumber": 1.7,
+                "exposureTime": "1/1462",
+                "iso": 57,
                 "focalLength": 4.4
               },
               "description": "Aapravasi Ghat, Rue Louis Pasteur, William Newton, Port Louis, Mauritius (tourism: museum).",

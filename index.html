@@ -383,8 +383,8 @@ function TripMap({trip,photo}){
 }
 
 function RandomView({trips,onGo,auto,onlyGps,debug}){
-  const [hist,setHist]=useState([]),[idx,setIdx]=useState(-1),[tick,setTick]=useState(0),[shown,setShown]=useState(0);   // tick: bumps on every photo change; shown: random photos displayed so far
-  const box=useRef();
+  const [hist,setHist]=useState([]),[idx,setIdx]=useState(-1),[tick,setTick]=useState(0),[shown,setShown]=useState(()=>{ try{ return +sessionStorage.getItem('randShown')||0; }catch{ return 0; } });   // tick: bumps on every photo change; shown: random photos displayed so far
+  const box=useRef(), startShown=useRef(shown), lastChange=useRef(Date.now());
   const [lw,setLw]=useState(()=>{ try{ return +localStorage.getItem('randLeftW')||0; }catch{ return 0; } }),[dragging,setDragging]=useState(false);
   const onSplit=e=>{ if(!dragging) return; const r=box.current.getBoundingClientRect();
     setLw(Math.round(Math.min(r.width-250,Math.max(220,e.clientX-r.left-12)))); };   /* text + map column on the left */
@@ -403,6 +403,13 @@ function RandomView({trips,onGo,auto,onlyGps,debug}){
   useEffect(()=>{ if((!cur||!photo)&&list.length) pick(); },[list.length,!!photo]);        // first photo (or after data changed)
   // auto-advance: a self-rescheduling timer (restarts after every photo, so one slow/failed load can't stall it)
   useEffect(()=>{ if(!auto) return; const id=setTimeout(()=>live.current.next(),auto*1000); return ()=>clearTimeout(id); },[auto,tick]);
+  useEffect(()=>{ lastChange.current=Date.now(); },[tick,idx]);
+  // Unattended slideshows on iPads run out of memory after many photos (black picture, nothing moves).
+  // 1) watchdog: if auto-advance has stalled, move on;  2) clean page reload every REFRESH_EVERY photos to free all memory.
+  useEffect(()=>{ if(!auto) return; const id=setInterval(()=>{ if(Date.now()-lastChange.current>auto*2000+15000) live.current.next(); },15000); return ()=>clearInterval(id); },[auto]);
+  const REFRESH_EVERY=150;
+  useEffect(()=>{ try{ sessionStorage.setItem('randShown',String(shown)); }catch{}
+    if(auto&&shown-startShown.current>=REFRESH_EVERY) setTimeout(()=>location.reload(),500); },[shown]);
   useEffect(()=>{ const k=e=>{ if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT') return;
       if(e.key==='ArrowRight') live.current.next(); if(e.key==='ArrowLeft') live.current.back(); };
     window.addEventListener('keydown',k); return ()=>window.removeEventListener('keydown',k); },[]);
@@ -427,7 +434,7 @@ function RandomView({trips,onGo,auto,onlyGps,debug}){
       onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);setDragging(true);}}
       onPointerMove={onSplit} onPointerUp={endSplit} onPointerCancel={endSplit}
       onDoubleClick={()=>setLw(0)}/>
-    <div className="pic" title="Click for another random photo" onClick={next}><img key={photo.url} src={sz(photo.url,1280)} decoding="async" referrerPolicy="no-referrer" onError={()=>setTimeout(()=>live.current.next(),1000)}/></div>
+    <div className="pic" title="Click for another random photo" onClick={next}><img src={sz(photo.url,1280)} referrerPolicy="no-referrer" onError={()=>setTimeout(()=>live.current.next(),1500)}/></div>
   </div>;
 }
 

@@ -199,7 +199,7 @@ function Stats({trips,onPick}){
 // The API needs a key (https://console.cloud.google.com/google/maps-apis -> enable "Maps JavaScript API").
 // Provide it once: it is read from ?key=... in the page address, or typed into the box below
 // (then remembered in this browser).
-const APP_VERSION=3;   // Claude: bump this by 1 every time a new version of index.html is produced
+const APP_VERSION=4;   // Claude: bump this by 1 every time a new version of index.html is produced
 const GOOGLE_MAPS_KEY='AIzaSyAJ7Cl38prkz4-cQcU4HlZ-Ha0IqpG7rLk';   // built-in key; ?key=... in the address or a saved key overrides it
 const getKey=()=>{ try{ return new URLSearchParams(location.search).get('key')||localStorage.getItem('gmapsKey')||GOOGLE_MAPS_KEY; }catch{ return GOOGLE_MAPS_KEY; } };
 let gmapsPromise=null;
@@ -439,6 +439,78 @@ function RandomView({trips,onGo,auto,onlyGps,debug}){
   </div>;
 }
 
+// ---- Countries tab: like Trips, but organised by country ----
+// spherical average of photo coordinates (same method as the scraper)
+function avgLoc(photos){ let x=0,y=0,z=0,n=0;
+  photos.forEach(p=>{ if(p.latitude==null||p.longitude==null) return; const la=p.latitude*Math.PI/180, lo=p.longitude*Math.PI/180;
+    x+=Math.cos(la)*Math.cos(lo); y+=Math.cos(la)*Math.sin(lo); z+=Math.sin(la); n++; });
+  if(!n) return null; x/=n; y/=n; z/=n;
+  return {latitude:+(Math.atan2(z,Math.hypot(x,y))*180/Math.PI).toFixed(6), longitude:+(Math.atan2(y,x)*180/Math.PI).toFixed(6)};
+}
+// country -> trips visited there -> that trip's photos taken in that country.
+// Built so the existing map code can be reused: a country plays the "trip" role, a trip-in-country the "album" role.
+function buildCountries(trips){
+  const g={};
+  trips.forEach(t=>{
+    const per={};
+    t.albums.forEach(a=>(a.photos||[]).forEach(p=>{ const c=photoCountry(p)||'Unknown'; (per[c]=per[c]||[]).push({...p,_albumTitle:a.title}); }));
+    if(!Object.keys(per).length) per.Unknown=[];
+    Object.entries(per).forEach(([c,ph])=>{ (g[c]=g[c]||[]).push({title:clean(t.title),url:t.url,photos:ph,averageLocation:avgLoc(ph)}); });
+  });
+  return Object.entries(g).map(([c,albums])=>({title:c,albums,averageLocation:avgLoc(albums.flatMap(a=>a.photos))}))
+    .sort((a,b)=>(a.title==='Unknown')-(b.title==='Unknown')||a.title.localeCompare(b.title));
+}
+
+function CountriesView({trips,visible,split}){
+  const data=React.useMemo(()=>buildCountries(trips),[trips]);
+  const [ci,setCi]=useState(null),[vi,setVi]=useState(null),[pi,setPi]=useState(null),[q,setQ]=useState(''),
+        [bounds,setBounds]=useState(null),[onlyView,setOnlyView]=useState(true),[hover,setHover]=useState(null);
+  const country=ci!=null?data[ci]:null, vtrip=country&&vi!=null?country.albums[vi]:null, photos=vtrip?vtrip.photos:[];
+  const nph=c=>c.albums.reduce((n,a)=>n+a.photos.length,0);
+  useEffect(()=>{ setHover(null); },[ci,vi]);
+  useEffect(()=>{ if(hover&&hover.src==='map'){ const el=document.querySelector(`.cgrid img[data-i="${hover.i}"]`); el&&el.scrollIntoView({block:'nearest'}); } },[hover]);
+  const matches=data.map((c,i)=>({c,i})).filter(({c})=>c.title.toLowerCase().includes(q.toLowerCase()));
+  const shown=onlyView?matches.filter(({c})=>c.title==='Unknown'||inView(c,bounds)):matches;
+  return <>
+    <MapView trips={data} ti={ci} ai={vi} onTrip={i=>{setCi(i);setVi(null)}} onAlbum={setVi} onPhoto={setPi} onBounds={setBounds} hover={hover} onHover={setHover} visible={visible}/>
+    {visible&&split}
+    <aside style={visible?undefined:{display:'none'}}>
+      <header>
+        <div className="crumbs">
+          <a onClick={()=>{setCi(null);setVi(null)}}>All countries</a>
+          {country&&<> › <a onClick={()=>setVi(null)}>{country.title}</a></>}
+          {vtrip&&<> › {vtrip.title}</>}
+        </div>
+        {!country&&<>
+          <input type="search" placeholder="Search countries…" value={q} onChange={e=>setQ(e.target.value)}/>
+          <div className="crumbs" style={{marginTop:6}}>
+            <label><input type="checkbox" checked={onlyView} onChange={e=>setOnlyView(e.target.checked)}/> Only countries in map view</label>
+            {' '}· {shown.length} of {matches.length} countries
+          </div>
+        </>}
+      </header>
+      {!country&&shown.length===0&&<div className="note">No countries in this part of the map – zoom out or pan.</div>}
+      {!country&&shown.map(({c,i})=>
+        <div className="row" key={i} onClick={()=>{setCi(i);setVi(null)}}>
+          <div><b>{c.title}</b><small>{c.albums.length} {c.albums.length===1?'trip':'trips'} · {nph(c)} photos{!loc(c)&&' · no location'}</small></div>
+        </div>)}
+      {country&&!vtrip&&country.albums.map((a,i)=>
+        <div className="row" key={i} onClick={()=>setVi(i)}>
+          <div><b>{a.title}</b><small>{a.photos.length} photos in {country.title}{!loc(a)&&' · no location'}</small></div>
+        </div>)}
+      {vtrip&&<>
+        <div className="note"><a href={vtrip.url} target="_blank">Open original trip page</a></div>
+        <div className="grid cgrid">
+          {photos.map((p,i)=><img key={i} data-i={i} className={hover&&hover.i===i?'hl':''} loading="lazy" referrerPolicy="no-referrer" src={sz(p.url,400)} title={p.description}
+            onClick={()=>setPi(i)} onMouseEnter={()=>setHover({i,src:'list'})} onMouseLeave={()=>setHover(null)}/>)}
+        </div>
+        {!photos.length&&<div className="note">No photos for this trip.</div>}
+      </>}
+    </aside>
+    {pi!=null&&photos[pi]&&<Lightbox photos={photos} i={pi} setI={setPi} trip={vtrip.title} album={photos[pi]._albumTitle}/>}
+  </>;
+}
+
 function Settings({auto,setAuto,onlyGps,setOnlyGps,debug,setDebug,updated}){
   return <div className="settings">
     <h2>Settings</h2>
@@ -481,7 +553,9 @@ function App(){
   useEffect(()=>{ if(hover&&hover.src==='map'){ const el=document.querySelector(`.grid img[data-i="${hover.i}"]`); el&&el.scrollIntoView({block:'nearest'}); } },[hover]);
   useEffect(()=>{ setHover(null); },[ti,ai,tab]);
   const trips=data?data.trips:[];
-  const T=tab==='trips', S=tab==='stats', R=tab==='random', G=tab==='settings';
+  const T=tab==='trips', C=tab==='countries', S=tab==='stats', R=tab==='random', G=tab==='settings';
+  const [cSeen,setCSeen]=useState(false);
+  useEffect(()=>{ if(C) setCSeen(true); },[C]);   // the Countries map is only created the first time that tab is opened
   // Random-tab settings, remembered between visits
   const [auto,setAuto]=useState(()=>{ try{ const raw=localStorage.getItem('randAuto'); if(raw===null) return 20;   // default: 20 seconds
     const v=+raw; return [0,5,10,20].includes(v)?v:20; }catch{ return 20; } });
@@ -493,25 +567,28 @@ function App(){
   const trip=ti!=null?trips[ti]:null, album=trip&&ai!=null?trip.albums[ai]:null, photos=album?(album.photos||[]):[];
   const matches=trips.map((t,i)=>({t,i})).filter(({t})=>clean(t.title).toLowerCase().includes(q.toLowerCase()));
   const shown=onlyView?matches.filter(({t})=>inView(t,bounds)):matches;
+  const splitEl=<div className={"split"+(drag?" drag":"")} title="Drag to resize the map"
+    onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);setDrag(true);}}
+    onPointerMove={onSplit} onPointerUp={endSplit} onPointerCancel={endSplit}
+    onDoubleClick={()=>{setSize({});try{localStorage.removeItem('panelSize')}catch{}}}/>;
   return <>
     <nav className="topbar">
       <h1>Travel Maps</h1>
       <div className="tabs" role="tablist">
         <button role="tab" aria-selected={R} className={R?'on':''} onClick={()=>setTab('random')}>Random</button>
         <button role="tab" aria-selected={T} className={T?'on':''} onClick={()=>setTab('trips')}>Trips</button>
+        <button role="tab" aria-selected={C} className={C?'on':''} onClick={()=>setTab('countries')}>Countries</button>
         <button role="tab" aria-selected={S} className={S?'on':''} onClick={()=>setTab('stats')}>Statistics</button>
         <button role="tab" aria-selected={G} className={G?'on':''} onClick={()=>setTab('settings')}>Settings</button>
       </div>
     </nav>
     <div ref={mainRef} className={"main"+(S?" stats":"")} style={{...(size.w?{'--pw':size.w+'px'}:{}),...(size.h?{'--ph':size.h+'px'}:{})}}>
     <MapView trips={trips} ti={ti} ai={ai} onTrip={i=>{setTi(i);setAi(null)}} onAlbum={setAi} onPhoto={setPi} onBounds={setBounds} hover={hover} onHover={setHover} visible={T}/>
-    {T&&<div className={"split"+(drag?" drag":"")} title="Drag to resize the map"
-      onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);setDrag(true);}}
-      onPointerMove={onSplit} onPointerUp={endSplit} onPointerCancel={endSplit}
-      onDoubleClick={()=>{setSize({});try{localStorage.removeItem('panelSize')}catch{}}}/>}
+    {T&&splitEl}
+    {data&&(C||cSeen)&&<CountriesView trips={trips} visible={C} split={splitEl}/>}
     {R&&data&&<RandomView auto={auto} onlyGps={onlyGps} debug={debug} trips={trips} onGo={(a,b)=>{setTab('trips');setTi(a);setAi(b);}}/>}
     {G&&<Settings auto={auto} setAuto={setAuto} onlyGps={onlyGps} setOnlyGps={setOnlyGps} debug={debug} setDebug={setDebug} updated={data&&data.dataLastUpdated}/>}
-    <aside style={(R||G)?{display:'none'}:undefined}>
+    <aside style={(R||G||C)?{display:'none'}:undefined}>
       <header>
         {T&&<div className="crumbs">
           <a onClick={()=>{setTi(null);setAi(null)}}>All trips</a>

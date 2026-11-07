@@ -1,5 +1,6 @@
 {
-  "dataLastUpdated": "2026-11-07T12:50:29.551Z",
+  "dataLastUpdated": "2026-11-07T13:32:22.069Z",
+  "tripsUrl": "https://sites.google.com/view/myworldtravels/our-trips",
   "trips": [
     {
       "title": "Nassau Bahamas March 1997",
@@ -4419,7 +4420,7 @@
         {
           "title": "Photo Album",
           "dates": null,
-          "url": "https://accounts.google.com/v3/signin/identifier?continue=https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z&followup=https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z&osid=1&passive=1209600&service=lh2&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-399909053:1794055753764767",
+          "url": "https://accounts.google.com/v3/signin/identifier?continue=https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z&followup=https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z&osid=1&passive=1209600&service=lh2&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1592390204:1794058285207307",
           "coverImage": null,
           "shortUrl": "https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z",
           "notes": "",
@@ -61165,46 +61166,6 @@
           },
           "photos": [
             {
-              "url": "https://lh3.googleusercontent.com/pw/AP1GczM95AvpWuTy2E05UQVS2FdooEeAk1yAmqE2BDpCcq2-TBVkEExFaku9Uk5Pl2fy5mZa3KiQY9H9oHlVQrz-Uzng65FiELoBoTdD7hC4yyGNeQu4FWPq=w3024-h4032",
-              "width": 3024,
-              "height": 4032,
-              "takenAt": "2021-10-24T10:51:27",
-              "latitude": 50.087261,
-              "longitude": 14.42855,
-              "fileSize": 4166442,
-              "altitude": 250.7,
-              "country": "Czechia",
-              "countryCode": "CZ",
-              "continent": "Europe",
-              "location": {
-                "v2": true,
-                "displayName": "New Town, obvod Praha 1, Prague, 110 05, Czechia",
-                "place": null,
-                "placeType": "highway: pedestrian",
-                "road": null,
-                "neighbourhood": "New Town",
-                "city": "Prague",
-                "county": null,
-                "region": null,
-                "postcode": "110 05",
-                "country": "Czechia",
-                "countryCode": "CZ"
-              },
-              "camera": "Google Pixel 4a (5G)",
-              "lens": null,
-              "settings": {
-                "fNumber": 1.7,
-                "exposureTime": "1/5848",
-                "iso": 63,
-                "focalLength": 4.4
-              },
-              "description": "New Town, Prague, Czechia.",
-              "notes": {
-                "album": "",
-                "photo": ""
-              }
-            },
-            {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczOgR3D1o-2luHkcPYASkvol3Qrr6z4nGfyDLjKPn3Zwoih54wZ_h7thBey3HwMzfRknJvub9eIZx72992dddnLLtpy_b3bHT1SqCcqlL8Q6YSX861Iz=w4032-h3024",
               "width": 4032,
               "height": 3024,
@@ -61236,6 +61197,46 @@
                 "fNumber": 1.7,
                 "exposureTime": "1/5848",
                 "iso": 64,
+                "focalLength": 4.4
+              },
+              "description": "New Town, Prague, Czechia.",
+              "notes": {
+                "album": "",
+                "photo": ""
+              }
+            },
+            {
+              "url": "https://lh3.googleusercontent.com/pw/AP1GczM95AvpWuTy2E05UQVS2FdooEeAk1yAmqE2BDpCcq2-TBVkEExFaku9Uk5Pl2fy5mZa3KiQY9H9oHlVQrz-Uzng65FiELoBoTdD7hC4yyGNeQu4FWPq=w3024-h4032",
+              "width": 3024,
+              "height": 4032,
+              "takenAt": "2021-10-24T10:51:27",
+              "latitude": 50.087261,
+              "longitude": 14.42855,
+              "fileSize": 4166442,
+              "altitude": 250.7,
+              "country": "Czechia",
+              "countryCode": "CZ",
+              "continent": "Europe",
+              "location": {
+                "v2": true,
+                "displayName": "New Town, obvod Praha 1, Prague, 110 05, Czechia",
+                "place": null,
+                "placeType": "highway: pedestrian",
+                "road": null,
+                "neighbourhood": "New Town",
+                "city": "Prague",
+                "county": null,
+                "region": null,
+                "postcode": "110 05",
+                "country": "Czechia",
+                "countryCode": "CZ"
+              },
+              "camera": "Google Pixel 4a (5G)",
+              "lens": null,
+              "settings": {
+                "fNumber": 1.7,
+                "exposureTime": "1/5848",
+                "iso": 63,
                 "focalLength": 4.4
               },
               "description": "New Town, Prague, Czechia.",
@@ -79462,46 +79463,6 @@
           },
           "photos": [
             {
-              "url": "https://lh3.googleusercontent.com/pw/AP1GczPqOyvw5L8i9kyDbo9dk6iqsoHlpBqsiJ6sEN6KI_1Uq963tZpq3fXc0xw2v9_FqJ7JCHaVUGlftaqCpmRzd9QyBnnhsbx0kvk2QwEDG7GpkWKAubyO=w3024-h4032",
-              "width": 3024,
-              "height": 4032,
-              "takenAt": "2023-06-01T15:51:21",
-              "latitude": 9.029392,
-              "longitude": 38.76355,
-              "fileSize": 2565415,
-              "altitude": 2415.9,
-              "country": "Ethiopia",
-              "countryCode": "ET",
-              "continent": "Africa",
-              "location": {
-                "v2": true,
-                "displayName": "Niger Street, Eri Bekentu, Arat Kilo, Addis Ababa, Arada, Addis Ababa, 1415, Ethiopia",
-                "place": "Niger Street",
-                "placeType": "highway: primary",
-                "road": "Niger Street",
-                "neighbourhood": "Eri Bekentu",
-                "city": "Addis Ababa",
-                "county": "Arada",
-                "region": "Addis Ababa",
-                "postcode": "1415",
-                "country": "Ethiopia",
-                "countryCode": "ET"
-              },
-              "camera": "Google Pixel 4a (5G)",
-              "lens": "Pixel 4a (5G) back camera 4.38mm f/1.73",
-              "settings": {
-                "fNumber": 1.7,
-                "exposureTime": "1/1672",
-                "iso": 66,
-                "focalLength": 4.4
-              },
-              "description": "Niger Street, Eri Bekentu, Addis Ababa, Arada, Ethiopia (highway: primary).",
-              "notes": {
-                "album": "",
-                "photo": ""
-              }
-            },
-            {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczMt1UTVsTKPC3mHt5rToVMItcN3iFjulbbi80iktHM8l2AOutzDQgMSkp1g4md_VIFygWaVFuDiDKg5KV3EsdLScnzZgn18fm4oVViOOpqZ6X350omH=w3264-h2448",
               "width": 3264,
               "height": 2448,
@@ -79536,6 +79497,46 @@
                 "focalLength": 2.6
               },
               "description": "King George VI Avenue, Amist Kilo, Addis Ababa, Arada, Ethiopia (highway: primary).",
+              "notes": {
+                "album": "",
+                "photo": ""
+              }
+            },
+            {
+              "url": "https://lh3.googleusercontent.com/pw/AP1GczPqOyvw5L8i9kyDbo9dk6iqsoHlpBqsiJ6sEN6KI_1Uq963tZpq3fXc0xw2v9_FqJ7JCHaVUGlftaqCpmRzd9QyBnnhsbx0kvk2QwEDG7GpkWKAubyO=w3024-h4032",
+              "width": 3024,
+              "height": 4032,
+              "takenAt": "2023-06-01T15:51:21",
+              "latitude": 9.029392,
+              "longitude": 38.76355,
+              "fileSize": 2565415,
+              "altitude": 2415.9,
+              "country": "Ethiopia",
+              "countryCode": "ET",
+              "continent": "Africa",
+              "location": {
+                "v2": true,
+                "displayName": "Niger Street, Eri Bekentu, Arat Kilo, Addis Ababa, Arada, Addis Ababa, 1415, Ethiopia",
+                "place": "Niger Street",
+                "placeType": "highway: primary",
+                "road": "Niger Street",
+                "neighbourhood": "Eri Bekentu",
+                "city": "Addis Ababa",
+                "county": "Arada",
+                "region": "Addis Ababa",
+                "postcode": "1415",
+                "country": "Ethiopia",
+                "countryCode": "ET"
+              },
+              "camera": "Google Pixel 4a (5G)",
+              "lens": "Pixel 4a (5G) back camera 4.38mm f/1.73",
+              "settings": {
+                "fNumber": 1.7,
+                "exposureTime": "1/1672",
+                "iso": 66,
+                "focalLength": 4.4
+              },
+              "description": "Niger Street, Eri Bekentu, Addis Ababa, Arada, Ethiopia (highway: primary).",
               "notes": {
                 "album": "",
                 "photo": ""

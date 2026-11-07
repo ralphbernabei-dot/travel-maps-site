@@ -1,7 +1,8 @@
 {
+  "dataLastUpdated": "2026-11-07T12:50:29.551Z",
   "trips": [
     {
-      "title": "Nassau Bahamas March 1987",
+      "title": "Nassau Bahamas March 1997",
       "url": "https://sites.google.com/view/myworldtravels/our-trips/nassau-bahamas-march-1997",
       "albums": [
         {
@@ -4418,7 +4419,7 @@
         {
           "title": "Photo Album",
           "dates": null,
-          "url": "https://accounts.google.com/v3/signin/identifier?continue=https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z&followup=https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z&osid=1&passive=1209600&service=lh2&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S1258567564:1793990211488045",
+          "url": "https://accounts.google.com/v3/signin/identifier?continue=https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z&followup=https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z&osid=1&passive=1209600&service=lh2&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-399909053:1794055753764767",
           "coverImage": null,
           "shortUrl": "https://photos.google.com/album/AF1QipN4D7oB45xATPp64xNxv7vOcSY-v64O9Z1G988Z",
           "notes": "",
@@ -23220,46 +23221,6 @@
           },
           "photos": [
             {
-              "url": "https://lh3.googleusercontent.com/pw/AP1GczNtk3-oMlmPgYejCuJ2sSv0ISMBAo6MUIdVRfdWwmWHo-TYe_lch4109hEqDzjVmVLwe-qD4AYO2ikncxNH3sbUUIRhFRdo1cYPER2FrYs2obRSDL8K=w3120-h4160",
-              "width": 3120,
-              "height": 4160,
-              "takenAt": "2019-03-16T19:38:46",
-              "latitude": 59.953915,
-              "longitude": 30.355721,
-              "fileSize": 938665,
-              "altitude": 23,
-              "country": "Russia",
-              "countryCode": "RU",
-              "continent": "Europe",
-              "location": {
-                "v2": true,
-                "displayName": "Lenin Square, Vyborg Side, Финляндский округ, Saint Petersburg, Northwestern Federal District, 191123, Russia",
-                "place": null,
-                "placeType": "amenity: fountain",
-                "road": "Lenin Square",
-                "neighbourhood": "Vyborg Side",
-                "city": "Saint Petersburg",
-                "county": null,
-                "region": "Saint Petersburg",
-                "postcode": "191123",
-                "country": "Russia",
-                "countryCode": "RU"
-              },
-              "camera": "motorola moto g(6) play",
-              "lens": null,
-              "settings": {
-                "fNumber": 2,
-                "exposureTime": "1/14",
-                "iso": 1600,
-                "focalLength": 3.5
-              },
-              "description": "Lenin Square, Vyborg Side, Saint Petersburg, Russia.",
-              "notes": {
-                "album": "",
-                "photo": ""
-              }
-            },
-            {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczMSMVsApcYU5k88gU7qt2PA6CY8we-Z7IItVd8A5VrsszJRI7cplI6zfDt1VJencwSgCs5mAdcfpNgz9mTVPxIpPjNrlm0EYNQdLIMsHQzPV5t05CCe=w4160-h3120",
               "width": 4160,
               "height": 3120,
@@ -23294,6 +23255,46 @@
                 "focalLength": 3.5
               },
               "description": "Михайловская военная артиллерийская академия, Литейный проспект, Литейный округ, Saint Petersburg, Russia (amenity: university).",
+              "notes": {
+                "album": "",
+                "photo": ""
+              }
+            },
+            {
+              "url": "https://lh3.googleusercontent.com/pw/AP1GczNtk3-oMlmPgYejCuJ2sSv0ISMBAo6MUIdVRfdWwmWHo-TYe_lch4109hEqDzjVmVLwe-qD4AYO2ikncxNH3sbUUIRhFRdo1cYPER2FrYs2obRSDL8K=w3120-h4160",
+              "width": 3120,
+              "height": 4160,
+              "takenAt": "2019-03-16T19:38:46",
+              "latitude": 59.953915,
+              "longitude": 30.355721,
+              "fileSize": 938665,
+              "altitude": 23,
+              "country": "Russia",
+              "countryCode": "RU",
+              "continent": "Europe",
+              "location": {
+                "v2": true,
+                "displayName": "Lenin Square, Vyborg Side, Финляндский округ, Saint Petersburg, Northwestern Federal District, 191123, Russia",
+                "place": null,
+                "placeType": "amenity: fountain",
+                "road": "Lenin Square",
+                "neighbourhood": "Vyborg Side",
+                "city": "Saint Petersburg",
+                "county": null,
+                "region": "Saint Petersburg",
+                "postcode": "191123",
+                "country": "Russia",
+                "countryCode": "RU"
+              },
+              "camera": "motorola moto g(6) play",
+              "lens": null,
+              "settings": {
+                "fNumber": 2,
+                "exposureTime": "1/14",
+                "iso": 1600,
+                "focalLength": 3.5
+              },
+              "description": "Lenin Square, Vyborg Side, Saint Petersburg, Russia.",
               "notes": {
                 "album": "",
                 "photo": ""
@@ -61164,46 +61165,6 @@
           },
           "photos": [
             {
-              "url": "https://lh3.googleusercontent.com/pw/AP1GczOgR3D1o-2luHkcPYASkvol3Qrr6z4nGfyDLjKPn3Zwoih54wZ_h7thBey3HwMzfRknJvub9eIZx72992dddnLLtpy_b3bHT1SqCcqlL8Q6YSX861Iz=w4032-h3024",
-              "width": 4032,
-              "height": 3024,
-              "takenAt": "2021-10-24T10:51:31",
-              "latitude": 50.087261,
-              "longitude": 14.42855,
-              "fileSize": 4544546,
-              "altitude": 250.7,
-              "country": "Czechia",
-              "countryCode": "CZ",
-              "continent": "Europe",
-              "location": {
-                "v2": true,
-                "displayName": "New Town, obvod Praha 1, Prague, 110 05, Czechia",
-                "place": null,
-                "placeType": "highway: pedestrian",
-                "road": null,
-                "neighbourhood": "New Town",
-                "city": "Prague",
-                "county": null,
-                "region": null,
-                "postcode": "110 05",
-                "country": "Czechia",
-                "countryCode": "CZ"
-              },
-              "camera": "Google Pixel 4a (5G)",
-              "lens": null,
-              "settings": {
-                "fNumber": 1.7,
-                "exposureTime": "1/5848",
-                "iso": 64,
-                "focalLength": 4.4
-              },
-              "description": "New Town, Prague, Czechia.",
-              "notes": {
-                "album": "",
-                "photo": ""
-              }
-            },
-            {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczM95AvpWuTy2E05UQVS2FdooEeAk1yAmqE2BDpCcq2-TBVkEExFaku9Uk5Pl2fy5mZa3KiQY9H9oHlVQrz-Uzng65FiELoBoTdD7hC4yyGNeQu4FWPq=w3024-h4032",
               "width": 3024,
               "height": 4032,
@@ -61235,6 +61196,46 @@
                 "fNumber": 1.7,
                 "exposureTime": "1/5848",
                 "iso": 63,
+                "focalLength": 4.4
+              },
+              "description": "New Town, Prague, Czechia.",
+              "notes": {
+                "album": "",
+                "photo": ""
+              }
+            },
+            {
+              "url": "https://lh3.googleusercontent.com/pw/AP1GczOgR3D1o-2luHkcPYASkvol3Qrr6z4nGfyDLjKPn3Zwoih54wZ_h7thBey3HwMzfRknJvub9eIZx72992dddnLLtpy_b3bHT1SqCcqlL8Q6YSX861Iz=w4032-h3024",
+              "width": 4032,
+              "height": 3024,
+              "takenAt": "2021-10-24T10:51:31",
+              "latitude": 50.087261,
+              "longitude": 14.42855,
+              "fileSize": 4544546,
+              "altitude": 250.7,
+              "country": "Czechia",
+              "countryCode": "CZ",
+              "continent": "Europe",
+              "location": {
+                "v2": true,
+                "displayName": "New Town, obvod Praha 1, Prague, 110 05, Czechia",
+                "place": null,
+                "placeType": "highway: pedestrian",
+                "road": null,
+                "neighbourhood": "New Town",
+                "city": "Prague",
+                "county": null,
+                "region": null,
+                "postcode": "110 05",
+                "country": "Czechia",
+                "countryCode": "CZ"
+              },
+              "camera": "Google Pixel 4a (5G)",
+              "lens": null,
+              "settings": {
+                "fNumber": 1.7,
+                "exposureTime": "1/5848",
+                "iso": 64,
                 "focalLength": 4.4
               },
               "description": "New Town, Prague, Czechia.",
@@ -79461,46 +79462,6 @@
           },
           "photos": [
             {
-              "url": "https://lh3.googleusercontent.com/pw/AP1GczMt1UTVsTKPC3mHt5rToVMItcN3iFjulbbi80iktHM8l2AOutzDQgMSkp1g4md_VIFygWaVFuDiDKg5KV3EsdLScnzZgn18fm4oVViOOpqZ6X350omH=w3264-h2448",
-              "width": 3264,
-              "height": 2448,
-              "takenAt": "2023-06-01T15:59:02",
-              "latitude": 9.037431,
-              "longitude": 38.762575,
-              "fileSize": 5229311,
-              "altitude": 2458.3,
-              "country": "Ethiopia",
-              "countryCode": "ET",
-              "continent": "Africa",
-              "location": {
-                "v2": true,
-                "displayName": "King George VI Avenue, Amist Kilo, Arat Kilo, Addis Ababa, Arada, Addis Ababa, 1176, Ethiopia",
-                "place": "King George VI Avenue",
-                "placeType": "highway: primary",
-                "road": "King George VI Avenue",
-                "neighbourhood": "Amist Kilo",
-                "city": "Addis Ababa",
-                "county": "Arada",
-                "region": "Addis Ababa",
-                "postcode": "1176",
-                "country": "Ethiopia",
-                "countryCode": "ET"
-              },
-              "camera": "Google Pixel 4a (5G)",
-              "lens": "Pixel 4a (5G) front camera 2.57mm f/2.0",
-              "settings": {
-                "fNumber": 2,
-                "exposureTime": "1/513",
-                "iso": 38,
-                "focalLength": 2.6
-              },
-              "description": "King George VI Avenue, Amist Kilo, Addis Ababa, Arada, Ethiopia (highway: primary).",
-              "notes": {
-                "album": "",
-                "photo": ""
-              }
-            },
-            {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczPqOyvw5L8i9kyDbo9dk6iqsoHlpBqsiJ6sEN6KI_1Uq963tZpq3fXc0xw2v9_FqJ7JCHaVUGlftaqCpmRzd9QyBnnhsbx0kvk2QwEDG7GpkWKAubyO=w3024-h4032",
               "width": 3024,
               "height": 4032,
@@ -79535,6 +79496,46 @@
                 "focalLength": 4.4
               },
               "description": "Niger Street, Eri Bekentu, Addis Ababa, Arada, Ethiopia (highway: primary).",
+              "notes": {
+                "album": "",
+                "photo": ""
+              }
+            },
+            {
+              "url": "https://lh3.googleusercontent.com/pw/AP1GczMt1UTVsTKPC3mHt5rToVMItcN3iFjulbbi80iktHM8l2AOutzDQgMSkp1g4md_VIFygWaVFuDiDKg5KV3EsdLScnzZgn18fm4oVViOOpqZ6X350omH=w3264-h2448",
+              "width": 3264,
+              "height": 2448,
+              "takenAt": "2023-06-01T15:59:02",
+              "latitude": 9.037431,
+              "longitude": 38.762575,
+              "fileSize": 5229311,
+              "altitude": 2458.3,
+              "country": "Ethiopia",
+              "countryCode": "ET",
+              "continent": "Africa",
+              "location": {
+                "v2": true,
+                "displayName": "King George VI Avenue, Amist Kilo, Arat Kilo, Addis Ababa, Arada, Addis Ababa, 1176, Ethiopia",
+                "place": "King George VI Avenue",
+                "placeType": "highway: primary",
+                "road": "King George VI Avenue",
+                "neighbourhood": "Amist Kilo",
+                "city": "Addis Ababa",
+                "county": "Arada",
+                "region": "Addis Ababa",
+                "postcode": "1176",
+                "country": "Ethiopia",
+                "countryCode": "ET"
+              },
+              "camera": "Google Pixel 4a (5G)",
+              "lens": "Pixel 4a (5G) front camera 2.57mm f/2.0",
+              "settings": {
+                "fNumber": 2,
+                "exposureTime": "1/513",
+                "iso": 38,
+                "focalLength": 2.6
+              },
+              "description": "King George VI Avenue, Amist Kilo, Addis Ababa, Arada, Ethiopia (highway: primary).",
               "notes": {
                 "album": "",
                 "photo": ""
@@ -100158,9 +100159,9 @@
           "country": "Australia",
           "continent": "Oceania",
           "averageLocation": {
-            "latitude": -34.022134,
-            "longitude": 151.128106,
-            "photosWithLocation": 65
+            "latitude": -34.019894,
+            "longitude": 151.129395,
+            "photosWithLocation": 66
           },
           "photos": [
             {
@@ -102167,24 +102168,41 @@
               "url": "https://lh3.googleusercontent.com/pw/AP1GczOLmfpx3rwmd7RHKh5bS98R4N9g30AY3uMBNuFAlxJcp4kG-4uD7EYAQN_e57oK1d5QUGEK3CW7hssXFg07UVr-PQjWgy8wELL0SlYIOb7n4abczXgg=w3024-h4032",
               "width": 3024,
               "height": 4032,
-              "takenAt": null,
-              "latitude": null,
-              "longitude": null,
-              "fileSize": null,
-              "altitude": null,
-              "country": null,
-              "countryCode": null,
-              "continent": null,
-              "location": null,
-              "camera": null,
-              "lens": null,
-              "settings": null,
-              "description": "Location unknown (album \"Sydney Australia Jan\").",
+              "takenAt": "2024-01-15T09:15:50",
+              "latitude": -33.87425,
+              "longitude": 151.213011,
+              "fileSize": 2857875,
+              "altitude": 46.1,
+              "country": "Australia",
+              "countryCode": "AU",
+              "continent": "Oceania",
+              "location": {
+                "v2": true,
+                "displayName": "6-8, Cross City Tunnel, Darlinghurst, Sydney, New South Wales, 2000, Australia",
+                "place": null,
+                "placeType": "amenity: cafe",
+                "road": "Cross City Tunnel",
+                "neighbourhood": "Darlinghurst",
+                "city": "Sydney",
+                "county": null,
+                "region": "New South Wales",
+                "postcode": "2000",
+                "country": "Australia",
+                "countryCode": "AU"
+              },
+              "camera": "Google Pixel 4a (5G)",
+              "lens": "Pixel 4a (5G) back camera 4.38mm f/1.73",
+              "settings": {
+                "fNumber": 1.7,
+                "exposureTime": "1/24",
+                "iso": 130,
+                "focalLength": 4.4
+              },
+              "description": "Cross City Tunnel, Darlinghurst, Sydney, New South Wales, Australia.",
               "notes": {
                 "album": "",
                 "photo": ""
-              },
-              "metadataError": "HTTP 500"
+              }
             },
             {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczOYbIgIAmcfh3QO14RTXThSTp9XsJx0bMt2g_8yJxuvymCpH6v8CYr_r8inBPakVniOop53-7VDEsB1d3RWnonbsPHTp_O5f-H_ABA7cEc69dPn1aHe=w3024-h4032",
@@ -167081,9 +167099,9 @@
       "country": "Cambodia, Italy, Thailand, Malta, Turkey, San Marino, New Zealand, Australia, Republic of Cyprus, United States of America, Slovenia, Liechtenstein, Monaco, Vietnam, Austria, France, Switzerland",
       "continent": "Europe, Asia, Oceania, North America",
       "averageLocation": {
-        "latitude": 40.614313,
-        "longitude": 61.060635,
-        "photosWithLocation": 1714
+        "latitude": 40.58901,
+        "longitude": 61.126193,
+        "photosWithLocation": 1715
       }
     },
     {
@@ -251225,6 +251243,46 @@
           },
           "photos": [
             {
+              "url": "https://lh3.googleusercontent.com/pw/AP1GczPhZ6RWt46AclZdVnl6ixSUhDtybTDNLjJPMyRfR_HOkNqVGJoYOUsIwyAcd_F-QihuAjlZyjS_PxaRC0ko74PeapsmyTvvlE9m8lIzUTL3NYfP05fw=w3024-h4032",
+              "width": 3024,
+              "height": 4032,
+              "takenAt": "2025-06-18T09:23:32",
+              "latitude": -20.158481,
+              "longitude": 57.503,
+              "fileSize": 5368640,
+              "altitude": 4.5,
+              "country": "Mauritius",
+              "countryCode": "MU",
+              "continent": "Africa",
+              "location": {
+                "v2": true,
+                "displayName": "Aapravasi Ghat, Rue Louis Pasteur, William Newton, Caudan Waterfront, Town of Port-Louis, Ward 3, Port Louis, 11602, Mauritius",
+                "place": "Aapravasi Ghat",
+                "placeType": "tourism: museum",
+                "road": "Rue Louis Pasteur",
+                "neighbourhood": "William Newton",
+                "city": "Port Louis",
+                "county": null,
+                "region": "Port Louis",
+                "postcode": "11602",
+                "country": "Mauritius",
+                "countryCode": "MU"
+              },
+              "camera": "Google Pixel 4a (5G)",
+              "lens": "Pixel 4a (5G) back camera 4.38mm f/1.73",
+              "settings": {
+                "fNumber": 1.7,
+                "exposureTime": "1/1462",
+                "iso": 57,
+                "focalLength": 4.4
+              },
+              "description": "Aapravasi Ghat, Rue Louis Pasteur, William Newton, Port Louis, Mauritius (tourism: museum).",
+              "notes": {
+                "album": "",
+                "photo": ""
+              }
+            },
+            {
               "url": "https://lh3.googleusercontent.com/pw/AP1GczPi8fNI5dSVLS-JvtQBw1l8gw79fU0kIxZB7LEhVH7BFNIu5L-inkAD-Af1VJilIbmB0cFa6nlUXAOjwitFYn35P_-w97Ll5rrGOA0xjsKg32dW7YGx=w3024-h4032",
               "width": 3024,
               "height": 4032,
@@ -251416,46 +251474,6 @@
                 "fNumber": 1.7,
                 "exposureTime": "1/2924",
                 "iso": 62,
-                "focalLength": 4.4
-              },
-              "description": "Aapravasi Ghat, Rue Louis Pasteur, William Newton, Port Louis, Mauritius (tourism: museum).",
-              "notes": {
-                "album": "",
-                "photo": ""
-              }
-            },
-            {
-              "url": "https://lh3.googleusercontent.com/pw/AP1GczPhZ6RWt46AclZdVnl6ixSUhDtybTDNLjJPMyRfR_HOkNqVGJoYOUsIwyAcd_F-QihuAjlZyjS_PxaRC0ko74PeapsmyTvvlE9m8lIzUTL3NYfP05fw=w3024-h4032",
-              "width": 3024,
-              "height": 4032,
-              "takenAt": "2025-06-18T09:23:32",
-              "latitude": -20.158481,
-              "longitude": 57.503,
-              "fileSize": 5368640,
-              "altitude": 4.5,
-              "country": "Mauritius",
-              "countryCode": "MU",
-              "continent": "Africa",
-              "location": {
-                "v2": true,
-                "displayName": "Aapravasi Ghat, Rue Louis Pasteur, William Newton, Caudan Waterfront, Town of Port-Louis, Ward 3, Port Louis, 11602, Mauritius",
-                "place": "Aapravasi Ghat",
-                "placeType": "tourism: museum",
-                "road": "Rue Louis Pasteur",
-                "neighbourhood": "William Newton",
-                "city": "Port Louis",
-                "county": null,
-                "region": "Port Louis",
-                "postcode": "11602",
-                "country": "Mauritius",
-                "countryCode": "MU"
-              },
-              "camera": "Google Pixel 4a (5G)",
-              "lens": "Pixel 4a (5G) back camera 4.38mm f/1.73",
-              "settings": {
-                "fNumber": 1.7,
-                "exposureTime": "1/1462",
-                "iso": 57,
                 "focalLength": 4.4
               },
               "description": "Aapravasi Ghat, Rue Louis Pasteur, William Newton, Port Louis, Mauritius (tourism: museum).",

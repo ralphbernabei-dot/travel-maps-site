@@ -199,7 +199,7 @@ function Stats({trips,onPick}){
 // The API needs a key (https://console.cloud.google.com/google/maps-apis -> enable "Maps JavaScript API").
 // Provide it once: it is read from ?key=... in the page address, or typed into the box below
 // (then remembered in this browser).
-const APP_VERSION=4;   // Claude: bump this by 1 every time a new version of index.html is produced
+const APP_VERSION=5;   // Claude: bump this by 1 every time a new version of index.html is produced
 const GOOGLE_MAPS_KEY='AIzaSyAJ7Cl38prkz4-cQcU4HlZ-Ha0IqpG7rLk';   // built-in key; ?key=... in the address or a saved key overrides it
 const getKey=()=>{ try{ return new URLSearchParams(location.search).get('key')||localStorage.getItem('gmapsKey')||GOOGLE_MAPS_KEY; }catch{ return GOOGLE_MAPS_KEY; } };
 let gmapsPromise=null;
@@ -511,7 +511,7 @@ function CountriesView({trips,visible,split}){
   </>;
 }
 
-function Settings({auto,setAuto,onlyGps,setOnlyGps,debug,setDebug,updated}){
+function Settings({auto,setAuto,onlyGps,setOnlyGps,debug,setDebug,updated,tripsUrl}){
   return <div className="settings">
     <h2>Settings</h2>
     <div className="opt"><label><b>Auto-advance</b>{' '}
@@ -523,6 +523,7 @@ function Settings({auto,setAuto,onlyGps,setOnlyGps,debug,setDebug,updated}){
       <small>Random tab: pick only photos that have GPS data, so the map always has a dot to show.</small></div>
     <div className="opt"><label><input type="checkbox" checked={debug} onChange={e=>setDebug(e.target.checked)}/> <b>Debug</b></label>
       <small>Random tab: show the “Random photos shown” count and the photo’s file size.</small></div>
+    {tripsUrl&&<div className="opt"><b>Trips website</b> <a href={tripsUrl} target="_blank" rel="noopener" style={{color:'#1c6dd0'}}>{tripsUrl}</a><small>The page all the trips in this data were collected from.</small></div>}
     <div className="opt"><b>Data last updated</b> {updated?new Date(updated).toLocaleString():'unknown'}<small>When trips.json was last written by the scraper{updated?'.':' (run the scraper again to add this date).'}</small></div>
     <div className="opt"><b>Version</b> {APP_VERSION}<small>Goes up by one each time a new version of this page is made.</small></div>
   </div>;
@@ -587,7 +588,7 @@ function App(){
     {T&&splitEl}
     {data&&(C||cSeen)&&<CountriesView trips={trips} visible={C} split={splitEl}/>}
     {R&&data&&<RandomView auto={auto} onlyGps={onlyGps} debug={debug} trips={trips} onGo={(a,b)=>{setTab('trips');setTi(a);setAi(b);}}/>}
-    {G&&<Settings auto={auto} setAuto={setAuto} onlyGps={onlyGps} setOnlyGps={setOnlyGps} debug={debug} setDebug={setDebug} updated={data&&data.dataLastUpdated}/>}
+    {G&&<Settings auto={auto} setAuto={setAuto} onlyGps={onlyGps} setOnlyGps={setOnlyGps} debug={debug} setDebug={setDebug} updated={data&&data.dataLastUpdated} tripsUrl={data&&(data.tripsUrl||((data.trips||[])[0]&&data.trips[0].url&&data.trips[0].url.replace(/\/[^\/]*\/?$/,'')))}/>}
     <aside style={(R||G||C)?{display:'none'}:undefined}>
       <header>
         {T&&<div className="crumbs">

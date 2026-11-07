@@ -55,6 +55,7 @@ input[type=search]{width:100%;padding:7px 9px;margin-top:8px;border:1px solid #c
 .chead .arrow{display:inline-block;width:1em}
 .chead small{display:block;font-weight:400;color:#555}
 .note select,.note button{padding:3px 6px;font-size:13px}
+.flag{height:4.5px;width:auto;vertical-align:1px;margin-right:2px;border:1px solid #0003;border-radius:1px;background:#eee}   /* height in px; width follows */
 .bar{height:6px;background:#e8590c;border-radius:3px;margin-top:5px}
 .bar.u{background:#999}
 .sub{padding:4px 14px 8px 34px;font-size:13px}
@@ -91,7 +92,7 @@ input[type=search]{width:100%;padding:7px 9px;margin-top:8px;border:1px solid #c
 <script type="text/babel">
 const {useState,useEffect,useRef} = React;
 const NEWP=/[\s·•|,\-–]*\+?\d+\s+new\s+(?:photos?|items?|videos?)\s+added\s+to\s+(?:the\s+|a\s+)?shared\s+album\.?/gi;
-const fixData = d => { (d.trips||[]).forEach(t=>(t.albums||[]).forEach(a=>{ if(a.title) a.title=a.title.replace(NEWP,' ').replace(/\s+/g,' ').replace(/[\s·•|,\-–]+$/,'').trim(); })); return d; };
+const fixData = d => { (d.trips||[]).forEach(t=>(t.albums||[]).forEach(a=>{ (a.photos||[]).forEach(p=>{ if(p.country&&p.countryCode) FLAGCODE[p.country]=p.countryCode; }); if(a.title) a.title=a.title.replace(NEWP,' ').replace(/\s+/g,' ').replace(/[\s·•|,\-–]+$/,'').trim(); })); return d; };
 const clean = t => (t||'').replace(/^\[(.*)\]\(.*\)$/,'$1');
 const sz = (u,w) => u.replace(/=w\d+-h\d+$/,'') + '=w' + w;
 const loc = o => o && o.averageLocation ? [o.averageLocation.latitude,o.averageLocation.longitude] : null;
@@ -103,6 +104,28 @@ const nPhotos = t => t.albums.reduce((n,a)=>n+(a.photos?a.photos.length:0),0);
 // Country fields are comma-separated strings ("Kenya, Tanzania") on photo / album / trip.
 // Falls back to the photos' reverse-geocoded location if an older JSON has no country field.
 const splitC = v => v ? v.split(/\s*,\s*/).filter(Boolean) : [];
+
+// ---- country flags (small images from flagcdn.com, looked up by ISO country code) ----
+const FLAGCODE={};   // country name -> ISO code; filled from the photos' countryCode when the data loads
+let NAME2CODE=null;  // fallback: English country names -> ISO codes (built from the browser's own region names)
+function codeFor(name){
+  if(!name) return null;
+  if(FLAGCODE[name]) return FLAGCODE[name];
+  if(!NAME2CODE){ NAME2CODE={};
+    try{ const dn=new Intl.DisplayNames(['en'],{type:'region'});
+      for(let a=65;a<91;a++) for(let b=65;b<91;b++){ const c=String.fromCharCode(a,b); const n=dn.of(c); if(n&&n!==c) NAME2CODE[n.toLowerCase()]=c; } }catch{}
+    Object.assign(NAME2CODE,{'united states':'US','united states of america':'US','united kingdom':'GB','czechia':'CZ','czech republic':'CZ','türkiye':'TR','turkey':'TR','russia':'RU',
+      'south korea':'KR','north korea':'KP','vietnam':'VN','laos':'LA','syria':'SY','iran':'IR','tanzania':'TZ','bolivia':'BO','venezuela':'VE','brunei':'BN','moldova':'MD',
+      'kosovo':'XK','eswatini':'SZ','swaziland':'SZ','cape verde':'CV','ivory coast':'CI',"côte d’ivoire":'CI',"côte d'ivoire":'CI','the gambia':'GM','gambia':'GM','the bahamas':'BS',
+      'democratic republic of the congo':'CD','republic of the congo':'CG','congo-kinshasa':'CD','congo-brazzaville':'CG','myanmar':'MM','burma':'MM','east timor':'TL','timor-leste':'TL',
+      'north macedonia':'MK','palestine':'PS','palestinian territories':'PS','vatican city':'VA','hong kong':'HK','macau':'MO','taiwan':'TW','south sudan':'SS'});
+  }
+  return NAME2CODE[name.toLowerCase()]||null;
+}
+const Flag=({name})=>{ const c=codeFor(name); if(!c) return null; const k=c.toLowerCase();
+  return <img className="flag" alt="" loading="lazy" referrerPolicy="no-referrer" src={`https://flagcdn.com/h20/${k}.png`} srcSet={`https://flagcdn.com/h40/${k}.png 2x`} onError={e=>{e.currentTarget.style.display='none'}}/>; };
+// "Kenya, Tanzania" -> flag + name for each
+const CountryList=({v})=><>{splitC(v).map((c,i)=><React.Fragment key={i}>{i>0&&', '}<Flag name={c}/>{c}</React.Fragment>)}</>;
 const photoCountry = p => p.country !== undefined ? p.country : (p.location && p.location.country) || null;
 const uniq = a => [...new Set(a)];
 const albumCountries = a => a.country !== undefined ? splitC(a.country) : uniq((a.photos||[]).map(photoCountry).filter(Boolean));
@@ -148,7 +171,7 @@ function Stats({trips,onPick}){
   const countryRow=g=><div key={g.country}>
     <div className="row" onClick={()=>setOpen({...open,[g.country]:!open[g.country]})}>
       <div style={{flex:1}}>
-        <b>{open[g.country]?'▾':'▸'} {g.country}</b>
+        <b>{open[g.country]?'▾':'▸'} <Flag name={g.country}/>{g.country}</b>
         <small>{g.trips.length} {g.trips.length===1?'trip':'trips'} · {g.albums} albums · {g.photos} photos</small>
         <div className={'bar'+(g.country==='Unknown'?' u':'')} style={{width:(100*g.trips.length/max)+'%'}}/>
       </div>
@@ -159,7 +182,7 @@ function Stats({trips,onPick}){
   const tripRow=({t,i})=>{ const cs=tripCountries(t).join(', ')||'Unknown';
     return <div className="row" key={i} onClick={()=>onPick(i)}><div>
       <b>{clean(t.title)}</b>
-      <small>{tripDate(t).text} · {cs} · {t.albums.length} albums · {nPhotos(t)} photos</small>
+      <small>{tripDate(t).text} · <CountryList v={cs}/> · {t.albums.length} albums · {nPhotos(t)} photos</small>
     </div></div>; };
 
   let body;
@@ -199,7 +222,7 @@ function Stats({trips,onPick}){
 // The API needs a key (https://console.cloud.google.com/google/maps-apis -> enable "Maps JavaScript API").
 // Provide it once: it is read from ?key=... in the page address, or typed into the box below
 // (then remembered in this browser).
-const APP_VERSION=5;   // Claude: bump this by 1 every time a new version of index.html is produced
+const APP_VERSION=8;   // Claude: bump this by 1 every time a new version of index.html is produced
 const GOOGLE_MAPS_KEY='AIzaSyAJ7Cl38prkz4-cQcU4HlZ-Ha0IqpG7rLk';   // built-in key; ?key=... in the address or a saved key overrides it
 const getKey=()=>{ try{ return new URLSearchParams(location.search).get('key')||localStorage.getItem('gmapsKey')||GOOGLE_MAPS_KEY; }catch{ return GOOGLE_MAPS_KEY; } };
 let gmapsPromise=null;
@@ -478,7 +501,7 @@ function CountriesView({trips,visible,split}){
       <header>
         <div className="crumbs">
           <a onClick={()=>{setCi(null);setVi(null)}}>All countries</a>
-          {country&&<> › <a onClick={()=>setVi(null)}>{country.title}</a></>}
+          {country&&<> › <a onClick={()=>setVi(null)}><Flag name={country.title}/>{country.title}</a></>}
           {vtrip&&<> › {vtrip.title}</>}
         </div>
         {!country&&<>
@@ -492,7 +515,7 @@ function CountriesView({trips,visible,split}){
       {!country&&shown.length===0&&<div className="note">No countries in this part of the map – zoom out or pan.</div>}
       {!country&&shown.map(({c,i})=>
         <div className="row" key={i} onClick={()=>{setCi(i);setVi(null)}}>
-          <div><b>{c.title}</b><small>{c.albums.length} {c.albums.length===1?'trip':'trips'} · {nph(c)} photos{!loc(c)&&' · no location'}</small></div>
+          <div><b><Flag name={c.title}/>{c.title}</b><small>{c.albums.length} {c.albums.length===1?'trip':'trips'} · {nph(c)} photos{!loc(c)&&' · no location'}</small></div>
         </div>)}
       {country&&!vtrip&&country.albums.map((a,i)=>
         <div className="row" key={i} onClick={()=>setVi(i)}>
@@ -608,14 +631,14 @@ function App(){
       {T&&!trip&&shown.length===0&&data&&<div className="note">No trips in this part of the map – zoom out or pan.</div>}
       {T&&!trip&&shown.map(({t,i})=>
         <div className="row" key={i} onClick={()=>{setTi(i);setAi(null)}}>
-          <div><b>{clean(t.title)}</b><small>{t.albums.length} albums · {nPhotos(t)} photos{t.country&&' · '+t.country}{!loc(t)&&' · no location'}</small></div>
+          <div><b>{clean(t.title)}</b><small>{t.albums.length} albums · {nPhotos(t)} photos{t.country&&<> · <CountryList v={t.country}/></>}{!loc(t)&&' · no location'}</small></div>
         </div>)}
       {T&&trip&&!album&&<>
         {trip.albums.length===0&&<div className="note">No albums for this trip.</div>}
         {trip.albums.map((a,i)=>
           <div className="row" key={i} onClick={()=>setAi(i)}>
             {a.coverImage&&<img src={a.coverImage} referrerPolicy="no-referrer"/>}
-            <div><b>{a.title}</b><small>{a.dates||''} · {(a.photos||[]).length} photos{a.country&&' · '+a.country}{!loc(a)&&' · no location'}</small></div>
+            <div><b>{a.title}</b><small>{a.dates||''} · {(a.photos||[]).length} photos{a.country&&<> · <CountryList v={a.country}/></>}{!loc(a)&&' · no location'}</small></div>
           </div>)}
         <div className="note"><a href={trip.url} target="_blank">Open original page</a></div>
       </>}

@@ -199,7 +199,7 @@ function Stats({trips,onPick}){
 // The API needs a key (https://console.cloud.google.com/google/maps-apis -> enable "Maps JavaScript API").
 // Provide it once: it is read from ?key=... in the page address, or typed into the box below
 // (then remembered in this browser).
-const APP_VERSION=2;   // Claude: bump this by 1 every time a new version of index.html is produced
+const APP_VERSION=3;   // Claude: bump this by 1 every time a new version of index.html is produced
 const GOOGLE_MAPS_KEY='AIzaSyAJ7Cl38prkz4-cQcU4HlZ-Ha0IqpG7rLk';   // built-in key; ?key=... in the address or a saved key overrides it
 const getKey=()=>{ try{ return new URLSearchParams(location.search).get('key')||localStorage.getItem('gmapsKey')||GOOGLE_MAPS_KEY; }catch{ return GOOGLE_MAPS_KEY; } };
 let gmapsPromise=null;
@@ -439,7 +439,7 @@ function RandomView({trips,onGo,auto,onlyGps,debug}){
   </div>;
 }
 
-function Settings({auto,setAuto,onlyGps,setOnlyGps,debug,setDebug}){
+function Settings({auto,setAuto,onlyGps,setOnlyGps,debug,setDebug,updated}){
   return <div className="settings">
     <h2>Settings</h2>
     <div className="opt"><label><b>Auto-advance</b>{' '}
@@ -451,6 +451,7 @@ function Settings({auto,setAuto,onlyGps,setOnlyGps,debug,setDebug}){
       <small>Random tab: pick only photos that have GPS data, so the map always has a dot to show.</small></div>
     <div className="opt"><label><input type="checkbox" checked={debug} onChange={e=>setDebug(e.target.checked)}/> <b>Debug</b></label>
       <small>Random tab: show the “Random photos shown” count and the photo’s file size.</small></div>
+    <div className="opt"><b>Data last updated</b> {updated?new Date(updated).toLocaleString():'unknown'}<small>When trips.json was last written by the scraper{updated?'.':' (run the scraper again to add this date).'}</small></div>
     <div className="opt"><b>Version</b> {APP_VERSION}<small>Goes up by one each time a new version of this page is made.</small></div>
   </div>;
 }
@@ -509,7 +510,7 @@ function App(){
       onPointerMove={onSplit} onPointerUp={endSplit} onPointerCancel={endSplit}
       onDoubleClick={()=>{setSize({});try{localStorage.removeItem('panelSize')}catch{}}}/>}
     {R&&data&&<RandomView auto={auto} onlyGps={onlyGps} debug={debug} trips={trips} onGo={(a,b)=>{setTab('trips');setTi(a);setAi(b);}}/>}
-    {G&&<Settings auto={auto} setAuto={setAuto} onlyGps={onlyGps} setOnlyGps={setOnlyGps} debug={debug} setDebug={setDebug}/>}
+    {G&&<Settings auto={auto} setAuto={setAuto} onlyGps={onlyGps} setOnlyGps={setOnlyGps} debug={debug} setDebug={setDebug} updated={data&&data.dataLastUpdated}/>}
     <aside style={(R||G)?{display:'none'}:undefined}>
       <header>
         {T&&<div className="crumbs">
